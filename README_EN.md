@@ -1,4 +1,4 @@
-# An esoteric programming language that is not so challenging: PROBIE, definition ver 0.2.
+# An esoteric but not-so-hard programming language: PROBIE, definition ver 0.3.
 
 # 1. Overview
 - PROBIE LANGUAGE is a language which is characteristically run by a `Probe` which constantly moves on a code written on two-dimensional `field`. In PROBIE, the code space and memory space are not separated, all values are stored as characters, and the code itself may change during runtime.
@@ -22,12 +22,12 @@
 - All values stored in the probe and the cell are stored as characters. For example, if you perform an addition of `0` and `2`, it would become `b` because PROBIE counts this as addition of `48` and `50` in ASCII values.
 ## 4.1. Value of the characters 
 - The characters present in the ASCII code table have the same value as the corresponding code.
-- Any character that does not exist in ASCII code table (except the ones listed below) has a value of 0.
+- Any unicode character that does not exist in ASCII code table (except the ones listed below) has a value of 0.
 - In the ASCII code table, numbers from 0 to 31 and 127 are not printable, so the following characters have their values instead :
 - `○` : 0 (this character is a default when the interpreter has to handle the value 0.)
 - `① - ⑮` : 1-15
 - `◎` : 16
-- `⑴ - ⒂` : 17 - 31
+- `ⓐ - ⓞ` : 17 - 31
 - `●` : 127
 ## 4.2. Special characters
 - Some characters take up two cells. During the reading activity, when the probe encounters a `\`, it will try to read and save the next character as well. They are used to process tasks such as `P` or `I`. If these characters are given as user input to a probe of `I` state, they would be stored as two seperate characters in the input buffer.
