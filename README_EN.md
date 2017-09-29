@@ -41,18 +41,18 @@ Note that these characters have a value of zero in and can be read differently d
 - The following commands are valid immediately after being read by the `READ` pointer : Therefore, it is advised to place the `READ` and `WRITE` pointers in different positions. (That is because if these two pointers are always located in the same cell, for example the `P` command would always print itself and the `I` command would always overwrite itself.) 
 - Commands are divided into volatile commands which tell the probe to perform a specific motion once, movement commands which move the probe and cursor, and the nonvolatile commands which tell the probe to constantly perform an action after each move.
 - The `READ` pointer ignores non-command characters. You are free to write whatever you want on the course of the `READ` pointer!
+## 5.1. Volatile commands
+### 5.1.1. Conditional Operators
+- Conditional Operators all move the probe by 1 cell. The direction of the movement depends on outcome of the comparison, and does not impact consistent jump interval and direction of the probe itself.
+- `{` : Compare the values 1 cell above and below the current position. Move the probe to the left if the above value is greater; else move it to the right.
+- `}` : Compare the values 1 cell above and below the current position. Move the probe to the right if the above value is greater; else move it to the left.
+- `∧` : Compare the values 1 cell left and right to the current position. Move the probe upwards if the left value is greater; else move it downwards.
+- `∨` : Compare the values 1 cell left and right to the current position. Move the probe downwards if the left value is greater; else move it upwards.
+- `↔` : Compare the value stored on the probe and the value of the `WRITE` pointer position. Move the probe to the left if the value stored on the probe is greater; else move it to the right.
+- `↕` : Compare the value stored on the probe and the value of the `WRITE` pointer position. Move the probe upwards if the value stored on the probe is greater; else move it downwards.
 ```
 TRANSLATION OF THIS DOCUMENT BELOW THIS LINE IS NOT FINISHED YET.
 ```
-## 5.1. volatile command
-### 5.1.1
-- All the adjustments are performed by moving the probe 1 column. The direction of the movement depends on the outcome of the comparison, which is not consistent with the constant travel interval and direction of the probe itself.
-- " {" : : In the current position, compare the values under 1 cell and 1 cell. Move the probe to the left or right if the upper value is larger.
-- Populate : Compare the values below 1 cell and 1 cell in the current position. Move the probe to the right, or to the left, if the upper value is larger.
-- " ∧ " : compare the values on the left and right sides of the cell to the right of the cell. Move the probe up or down if the value is larger than the left.
-- " ∨ " : compare the values on the left and right sides of the cell to the right of the cell. Move the probe up or down if the value is larger than the left.
-- " ↔ " : Compare the values stored on the probe and the value of the " WRITE " pointer. Move the probe to the left or right if the value stored on the probe is larger.
-- " ↕ " : Compare the values stored on the probe and the value of the " WRITE " pointer. Move the probe up or down if the value stored on the probe increases.
 ### 5.1.2. Operator
 Please note that when you perform a calculation, the size of the values that can be stored on each cell and the probe are from 0 to 127, and the values of the values above are stored only with 128.
 #### 5.1.2.1. Change the value of the " WRITE " pointer
