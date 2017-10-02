@@ -1,7 +1,6 @@
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.util.Map.Entry;
@@ -27,9 +26,12 @@ public class ProbieGUI extends JFrame {
 	static boolean doMore = true;
 
 	public ProbieGUI() {
+		int max = 0;
 		f = new JLabel[Probie.field.length][];
 		for (int i = 0; i < f.length; i++) {
 			f[i] = new JLabel[Probie.field[i].length];
+			if (max < Probie.field[i].length)
+				max = Probie.field[i].length;
 			for (int j = 0; j < f[i].length; j++) {
 				f[i][j] = new JLabel(Probie.field[i][j] + "");
 				f[i][j].setOpaque(true);
@@ -42,14 +44,15 @@ public class ProbieGUI extends JFrame {
 		}
 
 		JPanel p = new JPanel();
-		p.setLayout(new GridBagLayout());
+		p.setLayout(new GridLayout(f.length, max, 0, 0));
 
-		GridBagConstraints g = new GridBagConstraints();
 		for (int i = 0; i < f.length; i++) {
-			for (int j = 0; j < f[i].length; j++) {
-				g.gridx = j;
-				g.gridy = i;
-				p.add(f[i][j], g);
+			for (int j = 0; j < max; j++) {
+				try {
+					p.add(f[i][j]);
+				} catch (Exception e) {
+					p.add(new JLabel());
+				}
 			}
 		}
 

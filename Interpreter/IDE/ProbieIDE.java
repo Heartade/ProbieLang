@@ -114,106 +114,6 @@ public class ProbieIDE extends JFrame {
 		p.requestFocusInWindow();
 
 		mb = new JMenuBar();
-		{
-			{
-				{
-					{
-						{
-							{
-								{
-									{
-										{
-											{
-												{
-													{
-														{
-															{
-																{
-																	{
-																		{
-																			{
-																				{
-																					{
-																						{
-																							{
-																								{
-																									{
-																										{
-																											{
-																												{
-																													{
-																														{
-																															{
-																																{
-																																	{
-																																		{
-																																			{
-																																				{
-																																					{
-																																						{
-																																							{
-																																								{
-																																									{
-																																										{
-																																											{
-																																												{
-																																													{
-																																														{
-																																															{
-																																																{
-																																																	{
-																																																		{
-																																																			{
-																																																			}
-																																																		}
-																																																	}
-																																																}
-																																															}
-																																														}
-																																													}
-																																												}
-																																											}
-																																										}
-																																									}
-																																								}
-																																							}
-																																						}
-																																					}
-																																				}
-																																			}
-																																		}
-																																	}
-																																}
-																															}
-																														}
-																													}
-																												}
-																											}
-																										}
-																									}
-																								}
-																							}
-																						}
-																					}
-																				}
-																			}
-																		}
-																	}
-																}
-															}
-														}
-													}
-												}
-											}
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		}
 
 		// Menu File
 
@@ -849,7 +749,7 @@ public class ProbieIDE extends JFrame {
 			a.setOpaque(true);
 			a.setBackground(Color.BLACK);
 			a.setForeground(Color.WHITE);
-			a.setFont(new Font("Consolas", Font.PLAIN, 18));
+			a.setFont(ProbieIDE.f);
 			a.setAutoscrolls(true);
 			a.getCaret().setVisible(true);
 
@@ -859,7 +759,7 @@ public class ProbieIDE extends JFrame {
 			f = new JTextField();
 			f.setOpaque(true);
 			f.setEditable(true);
-			f.setFont(new Font("Consolas", Font.PLAIN, 18));
+			f.setFont(ProbieIDE.f);
 			f.addKeyListener(new KeyListener() {
 
 				@Override
@@ -919,7 +819,7 @@ class ProbieHelp extends JFrame {
 				+ "<ul type=\"dot\"><li>↑, ←, ↓, →: (Alt-W), (Alt-A), (Alt-S), (Alt-D)<br></li>"
 				+ "<li>△, ◁, ▽, ▷: (Alt-I), (Alt-J), (Alt-K), (Alt-L)</li>"
 				+ "<li>▲, ◀ , ▶, ▼: (Alt-T), (Alt-F), (Alt-G), (Alt-H)</li>" + "<li>↔, ↕: (Alt-Z), (Alt-X)</li>"
-				+ "<li>∧, ∨: (Alt-V), (Alt-B)</li>" + "<li>×, ÷: (Alt-M), (Alt-N)</li>"
+				+ "<li>∧, ∨: (Alt-B), (Alt-V)</li>" + "<li>×, ÷: (Alt-M), (Alt-N)</li>"
 				+ "<li>For characters representing 0~31, 127: __(hexadecimal value) + (Alt-C)</li>"
 				+ "<li>Actually all the hexadecimal value in the range of ASCII is available to use Alt-C.</li></ul><br><br>"
 				+ "For more information, visit the site below:<br></html>");
