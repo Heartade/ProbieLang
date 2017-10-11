@@ -1,6 +1,5 @@
 # Probie IDE
  - Made by Orb_H
----
 
 ## 버전
  - 이제 진짜로 0.1일 것입니다
