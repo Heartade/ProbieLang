@@ -604,6 +604,7 @@ public class ProbieIDE extends JFrame {
 		}
 		edit(false);
 		fileBuf = null;
+		a.setText("");
 		setTitle("Probie IDE");
 	}
 
