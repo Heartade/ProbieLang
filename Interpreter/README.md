@@ -14,5 +14,5 @@ Made by Orb_H
  - Java로 만든 인터프리터입니다.
  - Java 8의 `::` 연산자가 신기해서 글자와 함수를 매칭시켜 Map으로 구현한 형태입니다.
  - 오류 처리를 하나도 안했습니다. 어차피 `ArrayIndexOutOfBoundsException`와 `ArithmeticException`밖에 뜰 일이 없기 때문입니다. 이는 Java 기본 지원 Exception이므로 건드리지 않았습니다. 나중에 처리하죠, 뭐.
- - GUI 시뮬레이터와 IDE를 만들고 있습니다.
+ - ~~GUI 시뮬레이터와 IDE를 만들고 있습니다.~~ 만들었습니다. IDE 폴더에 들어있습니다.
  - 원래는 Python으로 시도하였으나 `\`와 `￦`을 같은 문자로 인식하는 바람에 Java로 바꾼 것입니다.
