@@ -48,6 +48,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileFilter;
+import javax.swing.text.BadLocationException;
 
 public class ProbieIDE extends JFrame {
 
@@ -120,38 +121,38 @@ public class ProbieIDE extends JFrame {
 		JMenu file = new JMenu("File(1)");
 		file.setMnemonic(KeyEvent.VK_1);
 
-		JMenuItem file1 = new JMenuItem("New...");
-		file1.addActionListener((e) -> file_new());
-		file1.setMnemonic(KeyEvent.VK_N);
-		file1.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, InputEvent.CTRL_DOWN_MASK));
-		file.add(file1);
+		JMenuItem file_N = new JMenuItem("New...");
+		file_N.addActionListener((e) -> file_new());
+		file_N.setMnemonic(KeyEvent.VK_N);
+		file_N.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, InputEvent.CTRL_DOWN_MASK));
+		file.add(file_N);
 
-		JMenuItem file2 = new JMenuItem("Open...");
-		file2.addActionListener((e) -> file_open());
-		file2.setMnemonic(KeyEvent.VK_O);
-		file2.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_DOWN_MASK));
-		file.add(file2);
+		JMenuItem file_O = new JMenuItem("Open...");
+		file_O.addActionListener((e) -> file_open());
+		file_O.setMnemonic(KeyEvent.VK_O);
+		file_O.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_DOWN_MASK));
+		file.add(file_O);
 
-		JMenuItem file3 = new JMenuItem("Save...");
-		file3.addActionListener((e) -> file_save());
-		file3.setMnemonic(KeyEvent.VK_S);
-		file3.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK));
-		file.add(file3);
+		JMenuItem file_S = new JMenuItem("Save...");
+		file_S.addActionListener((e) -> file_save());
+		file_S.setMnemonic(KeyEvent.VK_S);
+		file_S.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK));
+		file.add(file_S);
 
-		JMenuItem file4 = new JMenuItem("Save As...");
-		file4.addActionListener((e) -> file_save_as());
-		file4.setMnemonic(KeyEvent.VK_A);
-		file4.setAccelerator(
+		JMenuItem file_A = new JMenuItem("Save As...");
+		file_A.addActionListener((e) -> file_save_as());
+		file_A.setMnemonic(KeyEvent.VK_A);
+		file_A.setAccelerator(
 				KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK));
-		file.add(file4);
+		file.add(file_A);
 
 		file.addSeparator();
 
-		JMenuItem file5 = new JMenuItem("Exit");
-		file5.addActionListener((e) -> file_exit());
-		file5.setMnemonic(KeyEvent.VK_C);
-		file5.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, InputEvent.ALT_DOWN_MASK));
-		file.add(file5);
+		JMenuItem file_C = new JMenuItem("Close");
+		file_C.addActionListener((e) -> file_close());
+		file_C.setMnemonic(KeyEvent.VK_C);
+		file_C.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, InputEvent.ALT_DOWN_MASK));
+		file.add(file_C);
 
 		mb.add(file);
 
@@ -160,23 +161,23 @@ public class ProbieIDE extends JFrame {
 		JMenu edit = new JMenu("Edit(2)");
 		edit.setMnemonic(KeyEvent.VK_2);
 
-		JMenuItem edit1 = new JMenuItem("Cut");
-		edit1.addActionListener((e) -> edit_cut());
-		edit1.setMnemonic(KeyEvent.VK_U);
-		edit1.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, InputEvent.CTRL_DOWN_MASK));
-		edit.add(edit1);
+		JMenuItem edit_T = new JMenuItem("Cut");
+		edit_T.addActionListener((e) -> edit_cut());
+		edit_T.setMnemonic(KeyEvent.VK_T);
+		edit_T.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, InputEvent.CTRL_DOWN_MASK));
+		edit.add(edit_T);
 
-		JMenuItem edit2 = new JMenuItem("Copy");
-		edit2.addActionListener((e) -> edit_copy());
-		edit2.setMnemonic(KeyEvent.VK_C);
-		edit2.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.CTRL_DOWN_MASK));
-		edit.add(edit2);
+		JMenuItem edit_C = new JMenuItem("Copy");
+		edit_C.addActionListener((e) -> edit_copy());
+		edit_C.setMnemonic(KeyEvent.VK_C);
+		edit_C.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.CTRL_DOWN_MASK));
+		edit.add(edit_C);
 
-		JMenuItem edit3 = new JMenuItem("Paste");
-		edit3.addActionListener((e) -> edit_paste());
-		edit3.setMnemonic(KeyEvent.VK_P);
-		edit3.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V, InputEvent.CTRL_DOWN_MASK));
-		edit.add(edit3);
+		JMenuItem edit_P = new JMenuItem("Paste");
+		edit_P.addActionListener((e) -> edit_paste());
+		edit_P.setMnemonic(KeyEvent.VK_P);
+		edit_P.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V, InputEvent.CTRL_DOWN_MASK));
+		edit.add(edit_P);
 
 		mb.add(edit);
 
@@ -185,17 +186,17 @@ public class ProbieIDE extends JFrame {
 		JMenu run = new JMenu("Run(3)");
 		run.setMnemonic(KeyEvent.VK_3);
 
-		JMenuItem run1 = new JMenuItem("Run with Console");
-		run1.addActionListener((e) -> runConsole());
-		run1.setMnemonic(KeyEvent.VK_C);
-		run1.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F11, InputEvent.ALT_DOWN_MASK));
-		run.add(run1);
+		JMenuItem run_C = new JMenuItem("Run with Console");
+		run_C.addActionListener((e) -> runConsole());
+		run_C.setMnemonic(KeyEvent.VK_C);
+		run_C.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F11, InputEvent.ALT_DOWN_MASK));
+		run.add(run_C);
 
-		JMenuItem run2 = new JMenuItem("Run with Simulator");
-		run2.addActionListener((e) -> runSimulator());
-		run2.setMnemonic(KeyEvent.VK_S);
-		run2.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F12, InputEvent.ALT_DOWN_MASK));
-		run.add(run2);
+		JMenuItem run_S = new JMenuItem("Run with Simulator");
+		run_S.addActionListener((e) -> runSimulator());
+		run_S.setMnemonic(KeyEvent.VK_S);
+		run_S.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F12, InputEvent.ALT_DOWN_MASK));
+		run.add(run_S);
 
 		mb.add(run);
 
@@ -204,11 +205,11 @@ public class ProbieIDE extends JFrame {
 		JMenu help = new JMenu("Help(4)");
 		help.setMnemonic(KeyEvent.VK_4);
 
-		JMenuItem help1 = new JMenuItem("Help...");
-		help1.addActionListener((e) -> help_help());
-		help1.setMnemonic(KeyEvent.VK_H);
-		help1.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0));
-		help.add(help1);
+		JMenuItem help_H = new JMenuItem("Help...");
+		help_H.addActionListener((e) -> help_help());
+		help_H.setMnemonic(KeyEvent.VK_H);
+		help_H.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0));
+		help.add(help_H);
 
 		mb.add(help);
 
@@ -343,6 +344,7 @@ public class ProbieIDE extends JFrame {
 					StringBuffer sb = new StringBuffer(a.getText());
 					sb.replace(pos - 2, pos, Probie.getChar(res) + "");
 					a.setText(sb.toString());
+					a.setCaretPosition(pos - 1);
 				} catch (Exception ex) {
 					JOptionPane.showMessageDialog(ps,
 							"Given characters are not available to convert\n\nUsage: type two hexadecimal characters and use this.",
@@ -584,6 +586,16 @@ public class ProbieIDE extends JFrame {
 			file_save();
 	}
 
+	void save() throws Exception {
+		PrintWriter pw = new PrintWriter(new FileOutputStream(fileBuf));
+		for (int i = 0; i < a.getLineCount(); i++) {
+			pw.println(a.getText(a.getLineStartOffset(i), a.getLineEndOffset(i) - a.getLineStartOffset(i)));
+			pw.flush();
+		}
+		pw.close();
+		edit(false);
+	}
+
 	// Menus
 
 	void file_new() {
@@ -607,24 +619,19 @@ public class ProbieIDE extends JFrame {
 			int res = fc.showSaveDialog(ps);
 			if (res == JFileChooser.APPROVE_OPTION) {
 				File f = fc.getSelectedFile();
+				if (!f.getName().endsWith(".bie")) {
+					f = new File(f.getAbsolutePath() + ".bie");
+				}
 				try {
-					PrintWriter pw = new PrintWriter(new FileOutputStream(f));
-					pw.print(a.getText());
-					pw.flush();
-					pw.close();
 					fileBuf = f;
-					edit(false);
+					save();
 					setTitle("Probie IDE - " + f.getName());
 				} catch (Exception ignored) {
 				}
 			}
 		} else {
 			try {
-				PrintWriter pw = new PrintWriter(new FileOutputStream(fileBuf));
-				pw.print(a.getText());
-				pw.flush();
-				pw.close();
-				edit(false);
+				save();
 			} catch (Exception ignored) {
 			}
 		}
@@ -639,13 +646,13 @@ public class ProbieIDE extends JFrame {
 		int res = fc.showSaveDialog(ps);
 		if (res == JFileChooser.APPROVE_OPTION) {
 			File f = fc.getSelectedFile();
+			if (!f.getName().endsWith(".bie")) {
+				f = new File(f.getAbsolutePath() + ".bie");
+			}
 			try {
-				PrintWriter pw = new PrintWriter(new FileOutputStream(f));
-				pw.print(a.getText());
-				pw.flush();
-				pw.close();
 				fileBuf = f;
-				edit(false);
+				save();
+				setTitle("Probie IDE - " + f.getName());
 			} catch (Exception ignored) {
 			}
 		}
@@ -665,11 +672,14 @@ public class ProbieIDE extends JFrame {
 			File f = fc.getSelectedFile();
 			try {
 				BufferedReader br = new BufferedReader(new FileReader(f));
+				String out = "";
 				String s = "";
-				while (br.ready()) {
-					s.concat(br.readLine() + "\n");
+				while ((s = br.readLine()) != null) {
+					out += s.replaceAll("\\n", "") + "\n";
 				}
-				a.setText(s.substring(0, s.length() - 1));
+				out = out.replaceAll("\\n\\n", "\n");
+				out = out.substring(0, out.length() - 1);
+				a.setText(out);
 				fileBuf = f;
 				edit(false);
 				br.close();
@@ -679,10 +689,7 @@ public class ProbieIDE extends JFrame {
 		}
 	}
 
-	void file_exit() {// FIXME Test it
-		if (edited)
-			ask();
-		edit(false);
+	void file_close() {// FIXME Test it
 		ps.dispatchEvent(new WindowEvent(ps, WindowEvent.WINDOW_CLOSING));
 	}
 

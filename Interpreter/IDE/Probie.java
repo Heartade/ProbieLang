@@ -628,15 +628,17 @@ public class Probie {
 		case 4:
 			synchronized (ProbieIDE.holder) {
 				while (buffer.length() == 0) {
-					System.out.println(buffer.length());
+					System.out.println(buffer.length());// FIXME
 					ProbieIDE.getInstance().enableInput();
 					try {
+						System.out.println("!");// FIXME
 						ProbieIDE.holder.wait();
 					} catch (InterruptedException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 				}
+				System.out.println("!");// FIXME
 				field[e.getValue()][e.getKey()] = buffer.charAt(0);
 				buffer = buffer.substring(1);
 			}

@@ -63,9 +63,7 @@ public class ProbieGUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				if (doMore) {
-					synchronized (ProbieIDE.holder) {
-						next();
-					}
+					new Thread(() -> next()).start();
 				}
 			}
 
@@ -77,6 +75,7 @@ public class ProbieGUI extends JFrame {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setVisible(true);
+		setTitle("Value of Probe : (¡Û)");
 
 		f[0][0].setBackground(red);
 		p.setFocusable(true);
@@ -84,57 +83,57 @@ public class ProbieGUI extends JFrame {
 	}
 
 	void next() {
-		if (doMore) {
-			Probie.interpret2(Probie.p.read());
-			Entry<Integer, Integer> r = Probie.p.getRead(), w = Probie.p.getWrite(), m = Probie.p.getMem();
+		doMore = false;
+		Probie.interpret2(Probie.p.read());
+		Entry<Integer, Integer> r = Probie.p.getRead(), w = Probie.p.getWrite(), m = Probie.p.getMem();
 
-			try {
-				f[ty][tx].setBackground(Color.WHITE);
-			} catch (Exception ignored) {
-			}
+		try {
+			f[ty][tx].setBackground(Color.WHITE);
+		} catch (Exception ignored) {
+		}
 
-			try {
-				f[my][mx].setBackground(Color.WHITE);
-			} catch (Exception ignored) {
-			}
-			try {
-				f[wy][wx].setBackground(Color.WHITE);
-			} catch (Exception ignored) {
-			}
-			try {
-				f[ry][rx].setBackground(Color.WHITE);
-			} catch (Exception ignored) {
-			}
-			try {
-				f[m.getValue()][m.getKey()].setBackground(blue);
-			} catch (Exception ignored) {
-			}
-			try {
-				f[w.getValue()][w.getKey()].setBackground(green);
-			} catch (Exception ignored) {
-			}
-			try {
-				f[r.getValue()][r.getKey()].setBackground(red);
-			} catch (Exception ignored) {
-			}
-			for (int i = 0; i < f.length; i++) {
-				for (int j = 0; j < f[i].length; j++) {
-					if (!(f[i][j].getText().charAt(0) == Probie.field[i][j])) {
-						f[i][j].setBackground(pink);
-						ty = i;
-						tx = j;
-						f[i][j].setText(Probie.field[i][j] + "");
-					}
+		try {
+			f[my][mx].setBackground(Color.WHITE);
+		} catch (Exception ignored) {
+		}
+		try {
+			f[wy][wx].setBackground(Color.WHITE);
+		} catch (Exception ignored) {
+		}
+		try {
+			f[ry][rx].setBackground(Color.WHITE);
+		} catch (Exception ignored) {
+		}
+		try {
+			f[m.getValue()][m.getKey()].setBackground(blue);
+		} catch (Exception ignored) {
+		}
+		try {
+			f[w.getValue()][w.getKey()].setBackground(green);
+		} catch (Exception ignored) {
+		}
+		try {
+			f[r.getValue()][r.getKey()].setBackground(red);
+		} catch (Exception ignored) {
+		}
+		for (int i = 0; i < f.length; i++) {
+			for (int j = 0; j < f[i].length; j++) {
+				if (!(f[i][j].getText().charAt(0) == Probie.field[i][j])) {
+					f[i][j].setBackground(pink);
+					ty = i;
+					tx = j;
+					f[i][j].setText(Probie.field[i][j] + "");
 				}
 			}
-
-			my = m.getValue();
-			mx = m.getKey();
-			wy = w.getValue();
-			wx = w.getKey();
-			ry = r.getValue();
-			rx = r.getKey();
 		}
+
+		my = m.getValue();
+		mx = m.getKey();
+		wy = w.getValue();
+		wx = w.getKey();
+		ry = r.getValue();
+		rx = r.getKey();
+		doMore = true;
 	}
 
 	void detach() {
