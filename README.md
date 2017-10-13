@@ -94,13 +94,13 @@
 
 # 6. 예제 코드
 ## 6.1. Hello world!
- - Coded by __Heartade__
+ - Code by __Heartade__
 ```
 ↓P...........<
 .HELLO WORLD!.
 ```
 ## 6.2. Repeatedly adding 1 until 9
- - Coded by __Heartade__
+ - Code by __Heartade__
 ```
 ①.>R..<.[..↓..+....↑←←R
 ...↓......n\..0L]XS←←▷R
@@ -111,7 +111,7 @@
 ..........n\!dehsiniF..
 ```
 ## 6.3. 01 to 99
- - Coded by __Heartade__
+ - Code by __Heartade__
 ```
 R......................................................................
 / ! MEMORY SPACE FOR FIRST DIGIT   ! ..................................
@@ -148,7 +148,7 @@ L▽→[........↕9.................................................9.......
 .......................................................................
 ```
 ## 6.4. Character to Value
- - Coded by **Orb_H**
+ - Code by **Orb_H**
 ```
 ▷▷ 000[─────────────↑↑R
 !.↑.YOUR.LETTER HERE.!│
@@ -170,7 +170,7 @@ L↓A▷▷▷]sX◁[sX◁[sX─────R
 .....<XP──XP──XP─────↑R
 ```
 ## 6.5. Simple Adder
- - Coded by **Orb_H**
+ - Code by **Orb_H**
 ```
 ⇒─▽↑─────────────R ! This program adds integers
 ○! Memory Space !│ ! in [0, 9]. ...............
