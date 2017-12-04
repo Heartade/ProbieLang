@@ -50,53 +50,50 @@ Note that these characters have a value of zero in and can be read differently d
 - `∨` : Compare the values 1 cell left and right to the current position. Move the probe downwards if the left value is greater; else move it upwards.
 - `↔` : Compare the value stored on the probe and the value of the `WRITE` pointer position. Move the probe to the left if the value stored on the probe is greater; else move it to the right.
 - `↕` : Compare the value stored on the probe and the value of the `WRITE` pointer position. Move the probe upwards if the value stored on the probe is greater; else move it downwards.
-```
-TRANSLATION OF THIS DOCUMENT BELOW THIS LINE IS NOT FINISHED YET.
-```
-### 5.1.2. Operator
-Please note that when you perform a calculation, the size of the values that can be stored on each cell and the probe are from 0 to 127, and the values of the values above are stored only with 128.
-#### 5.1.2.1. Change the value of the " WRITE " pointer
-- " + " : The cells in the " WRITE " position add the stored value to the probe in the probe position.
-- " - " : " From the WRITE " point of the " WRITE " point, deduct the value stored on the probe.
-- " x " : The cells in the " WRITE " point position multiplied by the values stored on the probe.
-- " ÷ " : In the " WRITE " position, divide the values stored in the probe in the probe position.
-- " % " : " The cells in the WRITE " position are obtained by dividing the cells into the values stored on the probe.
-### # 5.1.2.2 Change the value stored on the probe
-- " A " : Add the value of the " WRITE " pointer to the value stored on the probe.
-- " D " : Subtract the value of the " WRITE " pointer from the values stored on the probe.
-- " M " : The values stored on the probe are multiplied by the value of the " WRITE " pointer.
-- " d " : From the values stored on the probe, divide the value of the " WRITE " pointer.
-- " m " : The values stored on the probe are saved by dividing the value of the probe into the value of the " WRITE " pointer.
-## # 5.1.3 5.1.3 INTERIOR INTERACTIONS INTERACTION
-- The following operations are used to store and recall values in the " MEM " cursor position :
-- " [" ["]] Writes the value stored on the probe to the value of the " MEM " cursor position.
-- " Under " : " The value of the MEM " cursor is changed to the value stored on the probe.
-- Replace the " _ " : " MEM " of the " MEM " cursor to the value stored on the probe.
-- " | " : Move the Y position of the " MEM " cursor to the value stored on the probe.
+### 5.1.2. Operators
+- When performing calculations, please note that the size of the values that can be stored on each cell or probe are limited to a range of 0 to 127, and values outside the range are stored as remainder of the value divided by 128.
+#### 5.1.2.1. Altering the value at the position of the `WRITE` pointer
+- `+` : Add value stored in the probe to the cell of `WRITE` pointer location.
+- `-` : Deduct value stored in the probe from the cell of `WRITE` pointer location.
+- `x` : Multiply the value in the cell of `WRITE` pointer location with value stored in the probe.
+- `÷` : Divide the value in the cell of `WRITE` pointer location with value stored in the probe.
+- `%` : Divide the value in the cell of `WRITE` pointer location with value stored in the probe and get the remainder.
+#### 5.1.2.2 Altering the value stored on the probe
+- `A` : Add the value of the `WRITE` pointer position to the value stored in the probe.
+- `D` : Subtract the value of the `WRITE` pointer position from the value stored in the probe.
+- `M` : Multiply the value stored in the probe with the value of `WRITE` pointer location.
+- `d` : Divide the value stored in the probe with the value of `WRITE` pointer location.
+- `m` : Divide the value stored in the probe with the value of `WRITE` pointer location and get the remainder.
+### 5.1.3 Interacting with `MEM`
+- The following operations are used to store and recall values in the `MEM` cursor position :
+- `[` : Change the value stored in the probe to the value in the `MEM` cursor position.
+- `]` : Change the value in the `MEM` cursor position to the value stored in the probe.
+- `_` : Move the X position of the `MEM` cursor to the value stored on the probe.
+- `|` : Move the Y position of the `MEM` cursor to the value stored on the probe.
 ## 5.2. Movement
-## # 5.2.1. " READ " POINT TRAINING
-- Movement of the " READ " pointer is defined in the movement interval and direction, which is equivalent to the movement of the probe itself.
-- The " > " : " READ " pointer increases 1 inch of travel interval.
-- The " < " : " READ " pointer reduces the movement of the moving distance. When the move interval reaches zero, the program stops.
-- Turn the " R " : " READ " pointer clockwise to rotate the direction of rotation 90 degrees clockwise.
-- Turn the " L " : " READ " pointer towards 90 degrees counter clockwise.
-## # 5.2.2 . ` WR IT ` idong pointeo E # 
-- " → ", " ← ", " ↑ ", " ↓ ", and " WR IT " locate the relative position of the " READ " Pointer.
-## # 5.2.3. Move the " MEM " cursor
-Move the cursor, " ▽ ", " ◁ ", " ▷ " and " MEM " to move the cursor.
-" ▲ ", " ▼ ", " ◀ ", " ▶ ", and " MEM " shall move the probe to the moving distance of the probe.
-## 5.3. non-volatile command
-The following commands continue to be followed until the other non-volatile command is read by the " READ " pointer.
-- " S " : Replace the value stored on the probe with the value of the " WRITE " pointer.
-- " s " : " WRITE " The value of the " WRITE " is changed to the value stored on the probe.
-- " P " : print the value of the " WRITE " pointer in the console.
-- " I " : " The WRITE " point in the " WRITE " position brings a single letter in the user's input buffer at a time.
-" X " : " S ", " S ", " P ", " I " and " I ".
-## 5.4. explanatory notes
-- " READ! " When the " READ " pointer reads this command, the " READ " pointer ignores all commands until the reading is read again.
+### 5.2.1. `READ` pointer movement
+- Movement of the `READ` pointer is defined with movement interval and direction, which also is the movement of the probe itself.
+- `>` : Increase the movement interval of the `READ` pointer by 1.
+- `<` : Decrease the movement interval of the `READ` pointer by 1. The program halts when the movement interval becomes 0.
+- `R` : Rotate the movement direction of the `READ` pointer 90 degrees clockwise.
+- `L` : Rotate the movement direction of the `READ` pointer 90 degrees counter-clockwise.
+### 5.2.2. `WRITE` pointer movement
+- `→`, `←`, `↑`, `↓` : Move the relative position of `WRITE` pointer to `READ` poiner by 1 cell.
+### 5.2.3. `MEM` cursor movement
+- `△`, `▽`, `◁`, `▷` : move `MEM` cursor by 1 cell.
+- `▲`, `▼`, `◀`, `▶` : move `MEM` cursor by movement interval of the probe.
+## 5.3. Non-volatile commands
+- The following commands continue to be executed until another non-volatile command is read by the `READ` pointer.
+- `S` : Change the value stored in the probe to the value of the `WRITE` pointer position.
+- `s` : Change the value of the `WRITE` pointer position to the value stored in the probe.
+- `P` : Print the value of the `WRITE` pointer position to the console.
+- `I` : Load one letter at a time from the user input buffer to `WRITE` pointer position.
+- `X` : Halt `S`, `s`, `P` and `I` commands.
+## 5.4. Comments
+- `!` When the `READ` pointer reads this command, the `READ` pointer ignores all commands until `!` is read again.
 
 # 6. Example codes
-Many of these are not tested yet, so caution is required.
+- Many of these are not tested yet, so caution is required.
 ## 6.1. Hello world!
 ```
 ↓P...........<
