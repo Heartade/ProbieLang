@@ -5,7 +5,10 @@ import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontFormatException;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.HeadlessException;
+import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.StringSelection;
@@ -31,6 +34,7 @@ import javax.swing.Action;
 import javax.swing.ActionMap;
 import javax.swing.BorderFactory;
 import javax.swing.InputMap;
+import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -48,7 +52,6 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileFilter;
-import javax.swing.text.BadLocationException;
 
 public class ProbieIDE extends JFrame {
 
@@ -62,9 +65,10 @@ public class ProbieIDE extends JFrame {
 	ProbieConsole pc;
 	ProbieGUI pg;
 	ProbieHelp ph = ProbieHelp.getInstance();
+	ProbieFind pf = ProbieFind.getInstance();
 
 	static final Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
-	static Font f;
+	static Font f, f2;
 
 	boolean edited = false;
 
@@ -93,6 +97,8 @@ public class ProbieIDE extends JFrame {
 	static {
 		try {
 			f = Font.createFont(Font.TRUETYPE_FONT, new File("Monospace.ttf"));
+			f2 = Font.createFont(Font.TRUETYPE_FONT, new File("Monospace.ttf"));
+			f2 = f2.deriveFont(14f);
 			f = f.deriveFont(18f).deriveFont(Font.BOLD);
 		} catch (FontFormatException e1) {
 			// TODO Auto-generated catch block
@@ -178,6 +184,20 @@ public class ProbieIDE extends JFrame {
 		edit_P.setMnemonic(KeyEvent.VK_P);
 		edit_P.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V, InputEvent.CTRL_DOWN_MASK));
 		edit.add(edit_P);
+
+		edit.addSeparator();
+
+		JMenuItem edit_F = new JMenuItem("Find");
+		edit_F.addActionListener((e) -> edit_find());
+		edit_F.setMnemonic(KeyEvent.VK_F);
+		edit_F.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F, InputEvent.CTRL_DOWN_MASK));
+		edit.add(edit_F);
+
+		JMenuItem edit_R = new JMenuItem("Replace");
+		edit_R.addActionListener((e) -> edit_replace());
+		edit_R.setMnemonic(KeyEvent.VK_R);
+		edit_R.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, InputEvent.CTRL_DOWN_MASK));
+		edit.add(edit_R);
 
 		mb.add(edit);
 
@@ -358,7 +378,7 @@ public class ProbieIDE extends JFrame {
 
 		setSize(800, 600);
 		setLocation(400, 300);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setResizable(true);
 		setTitle("Probie IDE");
 		setVisible(true);
@@ -375,7 +395,10 @@ public class ProbieIDE extends JFrame {
 			public void windowClosing(WindowEvent e) {
 				// TODO Auto-generated method stub
 				if (edited) {
-					ask();
+					if (ask_save()) {
+						dispose();
+						System.exit(0);
+					}
 				}
 			}
 
@@ -574,16 +597,21 @@ public class ProbieIDE extends JFrame {
 			setTitle(getTitle() + " *");
 			edited = edit;
 		} else if (!edit && edited) {
-			setTitle(getTitle().substring(0, getTitle().length() - 2));
+			setTitle(getTitle().substring(0, getTitle().lastIndexOf(" *")));
 			edited = edit;
 		}
 	}
 
-	void ask() {
+	boolean ask_save() {
 		int res = JOptionPane.showConfirmDialog(ps, "File is not yet saved. Do you want to save it?", "Save File",
-				JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
-		if (res == JOptionPane.OK_OPTION)
+				JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+		if (res == JOptionPane.YES_OPTION) {
 			file_save();
+			return true;
+		} else if (res == JOptionPane.NO_OPTION)
+			return true;
+		else
+			return false;
 	}
 
 	void save() throws Exception {
@@ -596,15 +624,46 @@ public class ProbieIDE extends JFrame {
 		edit(false);
 	}
 
+	void find(String s) {
+		int pos = a.getSelectedText() == null ? a.getCaretPosition() : a.getSelectionEnd();
+		int res = a.getText().indexOf(s, pos);
+		if (res == -1) {
+			Toolkit.getDefaultToolkit().beep();
+		} else {
+			a.setSelectionStart(res);
+			a.setSelectionEnd(res + s.length());
+		}
+	}
+
+	void replace(String s, String t) {
+		int pos = a.getSelectedText() == null ? a.getCaretPosition() : a.getSelectionStart();
+		int res = a.getText().indexOf(s, pos);
+		if (res == -1) {
+			Toolkit.getDefaultToolkit().beep();
+		} else {
+			StringBuilder sb = new StringBuilder(a.getText());
+			sb.replace(res, res + s.length(), t);
+			a.setText(sb.toString());
+			a.setCaretPosition(res + s.length());
+		}
+	}
+
+	void replaceAll(String s, String t) {
+		int pos = a.getCaretPosition();
+		a.setText(a.getText().replace(s, t));
+		a.setCaretPosition(pos);
+	}
+
 	// Menus
 
 	void file_new() {
 		if (edited) {
-			ask();
+			if (!ask_save())
+				return;
 		}
-		edit(false);
 		fileBuf = null;
 		a.setText("");
+		edit(false);
 		setTitle("Probie IDE");
 	}
 
@@ -661,7 +720,8 @@ public class ProbieIDE extends JFrame {
 
 	void file_open() {
 		if (edited) {
-			ask();
+			if (!ask_save())
+				return;
 		}
 		fc.setFileFilter(ff);
 		try {
@@ -722,6 +782,26 @@ public class ProbieIDE extends JFrame {
 		} catch (HeadlessException | UnsupportedFlavorException | IOException e1) {
 			JOptionPane.showMessageDialog(ps, "Can't paste contents in the clipboard!", "Paste Error",
 					JOptionPane.ERROR_MESSAGE);
+		}
+	}
+
+	void edit_find() {
+		if (!pf.isVisible()) {
+			pf.setVisible(true);
+			pf.setReplace(false);
+		} else {
+			pf.requestFocusInWindow();
+			Toolkit.getDefaultToolkit().beep();
+		}
+	}
+
+	void edit_replace() {
+		if (!pf.isVisible()) {
+			pf.setVisible(true);
+			pf.setReplace(true);
+		} else {
+			pf.requestFocusInWindow();
+			Toolkit.getDefaultToolkit().beep();
 		}
 	}
 
@@ -876,5 +956,108 @@ class ProbieHelp extends JFrame {
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setLocation(ProbieIDE.d.width / 2 - getWidth() / 2, ProbieIDE.d.height / 2 - getHeight() / 2);
 		setResizable(false);
+	}
+}
+
+class ProbieFind extends JFrame {
+	private static ProbieFind pf = null;
+
+	private JTextField find, replace;
+	private final Dimension min = new Dimension(200, 25);
+	private JButton rnf_b, replace_b, ra_b;
+
+	static ProbieFind getInstance() {
+		if (pf == null) {
+			pf = new ProbieFind();
+		}
+		return pf;
+	}
+
+	private ProbieFind() {
+		Container c = getContentPane();
+		c.setLayout(new GridBagLayout());
+
+		GridBagConstraints g = new GridBagConstraints();
+
+		g.gridx = 0;
+		g.gridy = 0;
+		JLabel label_f = new JLabel("To find:");
+		c.add(label_f, g);
+
+		g.gridx = 1;
+		find = new JTextField();
+		find.setMinimumSize(min);
+		find.setSize(min);
+		find.setPreferredSize(min);
+		find.setFont(ProbieIDE.f2);
+		c.add(find, g);
+
+		g.gridx = 2;
+		JButton find_b = new JButton("Find next");
+		c.add(find_b, g);
+
+		g.gridx = 3;
+		rnf_b = new JButton("Replace/Find");
+		c.add(rnf_b, g);
+
+		g.gridx = 0;
+		g.gridy = 1;
+		JLabel label_r = new JLabel("Replace with:");
+		c.add(label_r, g);
+
+		g.gridx = 1;
+		replace = new JTextField();
+		replace.setMinimumSize(min);
+		replace.setSize(min);
+		replace.setPreferredSize(min);
+		replace.setFont(ProbieIDE.f2);
+		c.add(replace, g);
+
+		g.gridx = 2;
+		replace_b = new JButton("Replace");
+		c.add(replace_b, g);
+
+		g.gridx = 3;
+		ra_b = new JButton("Replace All");
+		c.add(ra_b, g);
+
+		find_b.addActionListener((e) -> {
+			if (find.getText().length() != 0) {
+				ProbieIDE.getInstance().find(find.getText());
+			}
+		});
+
+		rnf_b.addActionListener((e) -> {
+			if (find.getText().length() != 0) {
+				ProbieIDE.getInstance().replace(find.getText(), replace.getText());
+				ProbieIDE.getInstance().find(find.getText());
+			}
+		});
+
+		replace_b.addActionListener((e) -> {
+			if (find.getText().length() != 0) {
+				ProbieIDE.getInstance().replace(find.getText(), replace.getText());
+			}
+		});
+
+		ra_b.addActionListener((e) -> {
+			if (find.getText().length() != 0) {
+				ProbieIDE.getInstance().replaceAll(find.getText(), replace.getText());
+			}
+		});
+
+		pack();
+
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		setTitle("Find/Replace");
+		setLocation(ProbieIDE.d.width / 2 - getWidth() / 2, ProbieIDE.d.height / 2 - getHeight() / 2);
+	}
+
+	void setReplace(boolean isReplace) {
+		replace.setEnabled(isReplace);
+		rnf_b.setEnabled(isReplace);
+		replace_b.setEnabled(isReplace);
+		ra_b.setEnabled(isReplace);
 	}
 }

@@ -564,7 +564,7 @@ public class Probie {
 			}
 		}
 
-		if (func3.containsKey(a) && !stop) {
+		if (!p.comment && func3.containsKey(a) && !stop) {
 			func3.get(a).apply(p);
 		}
 
@@ -576,16 +576,16 @@ public class Probie {
 			b = false;
 		}
 
-		if (func4.containsKey(a) && !stop) {
+		if (!p.comment && func4.containsKey(a) && !stop) {
 			func4.get(a).apply(p);
 			b = false;
 		}
 
-		if (func5.containsKey(a) && !stop) {
+		if (!p.comment && func5.containsKey(a) && !stop) {
 			func5.get(a).apply(p);
 		}
 
-		if (func6.containsKey(a) && !stop) {
+		if (!p.comment && func6.containsKey(a) && !stop) {
 			func6.get(a).apply(p);
 		}
 
@@ -639,7 +639,7 @@ public class Probie {
 					}
 				}
 				System.out.println("!");// FIXME
-				field[e.getValue()][e.getKey()] = buffer.charAt(0);
+				field[e.getValue()][e.getKey()] = Probie.getChar(buffer.charAt(0));
 				buffer = buffer.substring(1);
 			}
 			break;
@@ -686,7 +686,7 @@ public class Probie {
 	static class Probe {
 		int rx = 0, ry = 0, wx = 0, wy = 0, skip = 1, mx = 0, my = 0;
 		byte direction = 0;
-		char data;
+		char data = '¡Û';
 		byte state = 0;// X:0,S:1,s:2,P:3,I:4
 		boolean comment = false;
 		boolean backslash = false;

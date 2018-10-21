@@ -133,7 +133,7 @@ public class ProbieGUI extends JFrame {
 		wx = w.getKey();
 		ry = r.getValue();
 		rx = r.getKey();
-		setTitle("Value of Probe : (" + Probie.p.data + ")");
+		setTitle("Value of Probe : (" + Probie.getChar(Probie.p.data) + ")");
 		doMore = true;
 	}
 
