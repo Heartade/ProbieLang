@@ -14,29 +14,29 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 
-title: Docsy Jekyll
-email: your-email@domain.com
-author: Dinosaur Avocado
+title: Probie Language
+email: covalent.cov@gmail.com
+author: Heartade
 description: > # this means to ignore newlines until "baseurl:"
   Write an awesome description for your new site here. You can edit this
   line in _config.yml. It will appear in your document head meta (for
   Google search results) and in your feed.xml site description.
 
 # DO NOT CHANGE THE LINE OF THIS FILE without editing .circleci/circle_urls.sh
-baseurl: "/docsy-jekyll" # the subpath of your site, e.g. /blog
+baseurl: "/ProbieLang" # the subpath of your site, e.g. /blog
 
 # This is mostly for testing
-url: "https://vsoch.github.io" # the base hostname & protocol for your site
+url: "https://heartade.github.io" # the base hostname & protocol for your site
 
 # Social (First three Required)
-repo: "https://github.com/vsoch/docsy-jekyll"
-github_user: "vsoch"
-github_repo: "docsy-jekyll"
+repo: "https://github.com/heartade/ProbieLang"
+github_user: "Heartade"
+github_repo: "ProbieLang"
 
 # Optional
-twitter: vsoch
-linkedin: vsochat
-dockerhub: vanessa
+twitter: 
+linkedin: 
+dockerhub: 
 
 # Should there be feedback buttons at the bottom of pages?
 feedback: true
@@ -49,7 +49,7 @@ feedback: true
 # If commented, will use material hat theme
 # logo: "assets/img/logo/SRCC-square-red.png"
 logo_pixels: 34
-color: "#30638e"
+color: "#2a7fff"
 # color: "#8c1515" # primary color for header, buttons
 
 # Build settings
