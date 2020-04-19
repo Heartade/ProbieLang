@@ -1,41 +1,15 @@
 ---
 layout: page
-title: Docsy Jekyll Theme
+title: Probie Language
 permalink: /
 ---
 
-# Welcome to Docsy Jekyll
+# 난해하지만 그렇게 어렵지는 않은 언어, PROBIE
 
-This is a starter template for a docsy jekyll theme.
+PROBIE는 2차원 공간인 `필드`와 그 공간 위를 움직이는 객체인 `프로브`, 그리고 추가적으로 존재하는 `커서`에 의해 작동하는 언어입니다.
 
-![assets/img/docsy-jekyll.png](assets/img/docsy-jekyll.png)
+## 특징
 
-## Purpose
-
-GitHub pages uses Jekyll natively, so when I make documentation, I typically
-look for Jekyll templates. Why? Using Jekyll means that I can use markdown,
-and allow for users to easily contribute, and build automatically just by
-way of pushing to a master branch (or general GitHub pages).
-I found Docsy, a beautiful Hugo template, but it requires hugo with GoLang
-which doesn't render natively on GitHub pages. For this reason, I've spent
-some time creating a custom Jekyll template that is (almost) as beautiful,
-and includes all the features that I might want.
-
-## Features
-
-What are these features? You should see the {% include doc.html name="Getting Started" path="getting-started" %}
-guide for a complete summary. Briefly:
-
- - *User interaction* including consistent permalinks, links to ask questions via GitHub issues, and edit the file on GitHub directly.
- - *Search* across posts, documentation, and other site pages, with an ability to exclude from search.
- - *External Search* meaning an ability to link any page tag to trigger an external search.
- - *Documentation* A documentation collection that was easy to organize on the filesystem, render with nested headings for the user, and refer to in markdown.
- - *Pages* A separate folder for more traditional pages (e.g, about).
- - *Navigation*: Control over the main navigation on the left of the page, and automatic generation of table of contents for each page on the right.
- - *News* A posts feed for news and updates, along with an archive (organized by year).
- - *Templates* or specifically, "includes" that make it easy to create an alert, documentation link, or other content.
- - *Continuous Integration* recipes to preview the site
-
-
-For features, getting started with development, see the {% include doc.html name="Getting Started" path="getting-started" %} page. Would you like to request a feature or contribute?
-[Open an issue]({{ site.repo }}/issues)
+- 코드 공간과 메모리 공간이 구분되어있지 않습니다. 즉, 프로브가 지나가면서 수행한 커맨드라도 하나의 변수로서 쓰일 수 있고, 방금 값이 바뀐 변수가 커맨드가 되어 작동을 의미하는 특별한 값이 될 수도 있습니다.
+- `프로브`는 `필드` 위를 지속적으로 움직이며, 프로브가 이동할 수 없음은 프로그램의 정지와 동치입니다.
+- 자세한 내용은 [여기]({{ site.baseurl }}/docs/getting-started)에서 살펴볼 수 있습니다.

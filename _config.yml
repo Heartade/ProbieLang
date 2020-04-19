@@ -18,9 +18,7 @@ title: Probie Language
 email: covalent.cov@gmail.com
 author: Heartade
 description: > # this means to ignore newlines until "baseurl:"
-  Write an awesome description for your new site here. You can edit this
-  line in _config.yml. It will appear in your document head meta (for
-  Google search results) and in your feed.xml site description.
+  Probie 언어에 대한 설명을 정리해놓은 Github Page입니다.
 
 # DO NOT CHANGE THE LINE OF THIS FILE without editing .circleci/circle_urls.sh
 baseurl: "/ProbieLang" # the subpath of your site, e.g. /blog

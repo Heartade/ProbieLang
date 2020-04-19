@@ -1,18 +1,12 @@
 ---
 title: Extras
-description: Extras, including quizzes.
+description: Extras.
 tags:
- - survey
 ---
 
 # Extras
 
-Extras include other integrations that aren't relevant to style or customization,
-but can further enhance your documentation pages. Currently, we have support
-for adding interactive quizzes.
+Probie 언어에 대한 설명 이외의 것들이 존재합니다.
 
- - [Quizzes](example-quiz)
-
-
-Would you like to see another question type, or another kind of extra? Please
-[open an issue])({{ site.repo }}/issues/new).
+- [예시 코드]({{ site.baseurl }}/docs/extras/codes): Probie로 작성한 간단한 코드입니다.
+- [인터프리터]({{ site.baseurl }}/docs/extras/interpreter): Probie 코드를 돌려볼 수 있습니다.

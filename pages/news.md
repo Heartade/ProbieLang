@@ -1,9 +1,9 @@
 ---
-title: News
+title: 소식
 permalink: /news/
 ---
 
-# News
+# 소식
 
 <p>Subscribe with <a href="{{ site.baseurl }}/feed.xml">RSS</a> to keep up with the latest news.
 For site changes, see the <a href="https://github.com/{{ site.github_user }}/{{ site.github_repo }}/blob/master/CHANGELOG.md">changelog</a> kept with the code base.</p>
@@ -23,4 +23,4 @@ For site changes, see the <a href="https://github.com/{{ site.github_user }}/{{ 
    <hr>
 {% endfor %}
 
-Want to see more? See the <a href="{{ site.baseurl }}/archive/">News Archive</a>.
+더 많은 내용은 <a href="{{ site.baseurl }}/archive/">아카이브</a>에서 찾아보세요.

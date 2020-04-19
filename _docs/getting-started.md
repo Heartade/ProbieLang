@@ -1,384 +1,159 @@
 ---
-title: Getting Started
+title: Probie에 대하여
 tags: 
- - jekyll
- - github
-description: Getting started with Docsy Jekyll
+ - definition
+description: Probie에 대한 설명입니다.
 ---
 
-# Getting Started
+# Probie는 어떤 언어인가요?
 
-## Features
+## 구성 요소
 
-### User Interaction
+Probie는 작성한 2차원 코드인 **필드**와 그 위를 움직이는 개체인 **프로브**, 그리고 추가적으로 **MEM 커서**라는 개체가 존재합니다.
 
+### 필드
 
-On the right side of any page, you'll notice links to edit the page, or
-open an issue. This ensures that any time you have a question or want to 
-suggest or request a change, you can do so immediately and link directly
-to the section of interest. The sections on the page also have permalinks so
-you can link directly to them.
+**필드**는 코드 그 자체를 의미합니다. 필드는 2차원으로 구성되어있고, 필드의 각 문자는 **셀**이라고 합니다. 각 셀의 위치는 `[Y, X]`로 쓰이며, Y행 X열을 의미합니다. 첫 줄의 가장 왼쪽 문자의 위치는 `[0, 0]`입니다. 각 셀은 후술할 프로브와 MEM 커서에 의해 실시간으로 읽고 쓰이며 값이 언제든지 변할 수 있습니다.
 
-### Search
+인터프리터는 필드의 세로 길이는 단순히 줄 수로 판단하고, 가로 길이는 첫 번째 줄의 길이로 판단하여 필드의 크기를 가늠합니다. 필드를 벗어나는 셀을 읽거나 쓰려고 할 경우 오류가 발생합니다.
 
-The entire site, including posts and documentation, is indexed and then available
-for search at the top or side of the page. Give it a try! The content is rendered
-into window data that is used by lunr.js to generate the search results.
-If you want to exclude any file from search, add this to its front end matter:
+### 프로브
 
-```
----
-layout: null
-excluded_in_search: true
----
-```
-
-The example above is for a javascript file in the assets folder that is used as a template,
-but should not be included in search.
-
-### External Search
-
-If you have an external site with a search GET endpoint (meaning one that ends
-in `?q=<term>`, then you can automatically link page tags to search this endpoint.
-For example, on an HPC site I'd want a tag like "mpi" to do a search on 
-[http://ask.cyberinfrastructure.org](http://ask.cyberinfrastructure.org) for mpi.
-See the [tags](#tags) section below for how to configure this.
-
-### Documentation
-
-Documentation pages should be written in the `docs` folder of the repository,
-and you are allowed to use whatever level of nesting (subfolders) that 
-works for you! It's a Jekyll [collection](https://jekyllrb.com/docs/collections/), which means that you
-can add other content (images, scripts) and it will be included for linking to.
-
-#### Organization
-
-The url that will render is based on the path. For example, if we had the following structure:
-
-```
-docs/
-  getting-started.md
-  clusters/
-     sherlock/
-         getting-started.md
-```
+**프로브**는 필드 위를 지속적으로 움직이는 개체입니다. 프로그램 시작 시 프로브는 `[0, 0]`에서 출발하여 `[0, 1]` 방향으로 한 칸씩 이동하기 시작합니다. 후술할 [커맨드](#커맨드)에 의해서 프로브의 이동 간격이나 이동 방향을 조절할 수 있습니다. 이동 간격이 0이 되면 프로그램이 종료된 것으로 간주합니다.
 
-The first page (akin to the one you are reading) would render at it's path,
-`/docs/getting-started/`.
-
-
-#### Linking
-
-From that page, we could provide the
-direct path in markdown to any subfolder to link to it, such as the second
-getting started page for sherlock:
-
-```
-{% raw %}[example](clusters/sherlock/getting-started.md){% endraw %}
-```
-
-[Here](example-page) is an example link to a relative path of a file (`example-page.md`)
-in the same directory, and from that page you can test linking to a subfoldr.
-In the case of not having a subfolder, we could write the link out directly:
-
-```
-{% raw %}[example]({{ site.baseurl }}/docs/clusters/sherlock/getting-started.md){% endraw %}
-```
-
-or just put the relative path:
-
-```
-{% raw %}[Here](example-page){% endraw %}
-```
-
-or better, there is a shortand trick! We can use the provided "includes" 
-template to do the same based on the path to create a link:
-
-```
-{% raw %}{% include doc.html name="Sherlock Cluster" path="clusters/sherlock/getting-started" %}{% endraw %}
-```
-The path should be relative to the docs folder.
-
-### Pages
-
-The `pages` folder uses the same page layout, but is not part of the docs collection.
-The two are provided to create a distinction between website pages (e.g., about,
-feed.xml) and documentation pages.  
-
-### Navigation
-
-Whether you place your page under "pages" or "docs," for those pages that you want added to the navigation, 
-you should add them to `_data/toc.yml`. If you've defined a `permalink` in the
-front end matter, you can use that (e.g., "About" below). If you haven't and
-want to link to docs, the url is the path starting with the docs folder.
-Here is an example (currently the active example):
-
-```yaml
-- title: Documentation
-  url: docs
-  links:
-    - title: "Getting Started"
-      url: "docs/getting-started"
-      children:
-        - title: Features
-          url: "docs/getting-started#getting-started"
-        - title: Development
-          url: "docs/getting-started#development"
-        - title: Customization
-          url: "docs/getting-started#customization"
-    - title: "Extras"
-      url: "docs/extras"
-      children:
-        - title: Quizzes
-          url: "docs/extras/example-quiz"
-    - title: "About"
-      url: "about"
-    - title: "News"
-      url: "news
-```
-
-If you want to add an external url for a parent or child, do this:
-
-```yaml
-  - title: GitHub Repository
-    external_url: https://www.github.com/vsoch/mkdocs-jekyll
-```
-
-### News Posts
-
-It might be the case that your site or group has news items that would
-warrent sharing with the community, and should be available as a feed.
-For this reason, you can write traditional [posts](https://jekyllrb.com/docs/posts/) in the `_posts`
-folder that will parse into the site [feed]({{ site.baseurl }}/feed.xml)
-The bottom of the page links the user to a post archive, where posts are organized
-according to the year.
-
-### Buttons
-
-Buttons come in a nice array of colors. Here is the code for a basic example,
-and you'd want to vary the `.btn-<tag>` to get different classes.
-
-```html
-<button class="btn btn-success">.btn-success</button>
-```
-
-<button class="btn btn-success">.btn-success</button>
-<button class="btn btn-info">.btn-info</button>
-<button class="btn btn-secondary">.btn-secondary</button>
-<button class="btn btn-primary">.btn-primary</button>
-<button class="btn btn-danger">.btn-danger</button>
-<button class="btn btn-warning">.btn-warning</button>
-
-### Badges
-
-For news post items, it's nice to be able to tag it with something that indicates
-a status, such as "warning" or "alert." For this reason, you can add badges to
-the front end matter of any post page, and they will render colored by a type,
-with the tag of your choice. For example, here is an example header for
-a post:
-
-```yaml
----
-title:  "Two Thousand Nineteen"
-date:   2019-06-28 18:52:21
-categories: jekyll update
-badges:
- - type: warning
-   tag: warning-badge
- - type: danger
-   tag: danger-badge
----
-```
-
-And here is the post preview with the rendered badges that it produces:
-
-<span class="badge badge-warning">warning-badge</span>
-<span class="badge badge-danger">danger-badge</span>
-
-And the other badges that you can define include success, info, secondary,
-and primary.
-
-<span class="badge badge-success">success-badge</span>
-<span class="badge badge-info">info-badge</span>
-<span class="badge badge-secondary">secondary-badge</span>
-<span class="badge badge-primary">primary-badge</span>
-
-### Alerts
-
-{% include alert.html type="info" title="What is an alert?" content="An alert is a box that can stand out to indicate important information. You can choose from levels success, warning, danger, info, and primary. This example is an info box, and the code for another might look like this:" %}
-
-```
-{%raw%}{% include alert.html type="info" title="Here is another!" %}{%endraw%}
-```
-
-Just for fun, here are all the types:
-
-{% include alert.html type="warning" content="This is a warning" %}
-{% include alert.html type="danger" content="This alerts danger!" %}
-{% include alert.html type="success" content="This alerts success" %}
-{% include alert.html type="info" content="This is useful information." %}
-{% include alert.html type="primary" content="This is a primary alert" %}
-{% include alert.html type="secondary" content="This is a secondary alert" %}
-
-### Quotes
-
-You can include block quotes to emphasize text. 
-
-> Here is an example. Isn't this much more prominent to the user?
-
-## Development
-
-Initially (on OS X), you will need to setup [Brew](http://brew.sh/) which is a package manager for OS X and [Git](https://git-scm.com/). To install Brew and Git, run the following commands:
-
-```bash
-/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-brew install git
-```
-
-If you are on Debian/Ubuntu, then you can easily install git with `apt-get`
-
-```bash
-apt-get update && apt-get install -y git
-```
-
-### Install Jekyll
-
-You can also install Jekyll with brew.
-
-```bash
-$ brew install ruby
-$ gem install jekyll
-$ gem install bundler
-$ bundle install
-```
-
-On Ubuntu I do a different method:
-
-```bash
-git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build
-echo 'export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"' >> ~/.bashrc
-exec $SHELL
-rbenv install 2.3.1
-rbenv global 2.3.1
-gem install bundler
-rbenv rehash
-ruby -v
-
-# Rails
-curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -
-sudo apt-get install -y nodejs
-gem install rails -v 4.2.6
-rbenv rehash
-
-# Jekyll
-gem install jekyll
-gem install github-pages
-gem install jekyll-sass-converter
-
-rbenv rehash
-```
-
-### Get the code
-
-You should first fork the repository to your GitHub organization or username,
-and then clone it.
-
-```bash
-$ git clone https://github.com/<username</mkdocs-jekyll.git docs
-$ cd docs
-```
-
-You can clone the repository right to where you want to host the docs:
-
-```bash
-$ git clone https://github.com/<username>/mkdocs-jekyll.git docs
-$ cd docs
-```
-
-
-### Serve
-
-Depending on how you installed jekyll:
-
-```bash
-jekyll serve
-# or
-bundle exec jekyll serve
-```
-
-
-### Preview
-
-We provide a [CircleCI](https://circleci.com/) configuration recipe that you
-can use to preview your site on CircleCI before merging into master. You
-should follow the instructions to [set up a project](https://circleci.com/docs/enterprise/quick-start/),
-and then in the project settings be sure to enable building forked build requests,
-and to cancel redundant builds. The preview will be built on CircleCI, and saved
-to static files for you to browse. The only change you will need is to edit
-the static files location to be the name of your respository, which is at te
-bottom of the `.circleci/config.yml` file:
-
-```yaml
-      - store_artifacts:
-          path: ~/repo/_site
-          destination: mkdocs-jekyll
-```
-
-In the above, the destination should coincide with your repository name.
-Remember that for most links, CircleCI won't honor an `index.html` file in a subfolder
-(e.g., `subfolder/index.html` will not be served as `subfolder/`, so for example,
-you might need to turn this:
-
-```
-https://<circleci>/0/mkdocs-jekyll/docs/getting-started/
-```
-into this:
-
-```
-https://<circleci>/0/mkdocs-jekyll/docs/getting-started/index.html
-```
-
-## Customization
-
-#### config.yml
-
-To edit configuration values, customize the [_config.yml](_config.yml).
-Most are documented there, and please [open an issue](https://www.github.com/{{ site.github_user }}/{{ site.github_user }}/issues) if you have questions.
-
-#### Adding pages
-
-To add pages, write them into the [pages](pages) folder. 
-You define urls based on the `permalink` attribute in your pages,
-and then add them to the navigation by adding to the content of [_data/toc.yml](_data/toc.yml).
-
-#### Tags
-
-If you include tags on a page, by default they will link to the [tags page]({{ site.url }}{{ site.baseurl }}/tags) on the site. However, if you define a `tag_search_endpoint` url in your configuration file, by clicking
-the tag, the user will be taken to this page to search for it. As an example,
-we define the current search endpoint to be Ask Cyberinfrastructure, and
-page tags link to a search on it:
-
-```yaml
-tag_search_endpoint: https://ask.cyberinfrastructure.org/search?q=
-tag_color: danger # danger, success, warning, primary, secondary, info
-```
-
-Note that you can also choose a color! The tags appear at the top of the page,
-as they do on this page. The tags should be defined like this in the front end
-matter:
-
-```yaml
-tags: 
- - jekyll
- - github
-```
-
-They are appended to the first h1 block, so generally your pages should have a header.
-If you comment out this variable, then each of your tags will link to it's appropriate
-spot on the tags page linked above.
-
-```yaml
-#tag_search_endpoint: https://ask.cyberinfrastructure.org/search?q=
-tag_color: primary # danger, success, warning, primary, info, secondary
-```
+**프로브**는 **READ 포인터**와 **WRITE 포인터**로 이루어져 있습니다. **READ 포인터**는 셀의 명령을 읽는 역할을 합니다. READ 포인터의 위치는 프로브의 위치와 같은 것으로 간주합니다. **WRITE 포인터**는 명령을 수행하는 역할을 합니다. WRITE 포인터의 위치는 READ 포인터에 대해 `[0, 0]`의 위치에서 시작하며, 항상 READ 포인터에 대해 상대적으로 위치를 정의합니다.
 
+### MEM 커서
+
+**MEM 커서**는 프로브와는 반대로 필드 위에 가만히 있는 개체입니다. MEM 커서는 필드에 값을 저장하거나 불러오는 역할을 합니다. 오직 커맨드에 의해서만 필드 위에서 이동할 수 있습니다.
+
+## 문자와 값
+
+Probie에서 사용하는 모든 값은 문자입니다. 모든 문자는 ASCII 범위 이내의 값을 가지게 됩니다. 현존하는 ASCII 표에 해당하는 문자 중 32~126까지의 문자는 해당 값을 가지고, 그 이외의 ASCII 문자에 대해서는 아래의 특수한 문자를 사용합니다. ASCII와 아래의 특수한 문자에 포함되지 않는 모든 문자는 0의 값을 가지는 것으로 간주합니다.
+
+### 특수한 문자
+
+#### 다른 값을 가지는 문자
+
+- `○`: 0의 값을 가집니다.
+- `①`~`⑮`: 각각 1~15의 값을 가집니다.
+- `◎`: 16의 값을 가집니다.
+- `ⓐ`~`ⓞ`: 각각 17~31의 값을 가집니다.
+- `●`: 127의 값을 가집니다.
+
+#### escape 기호를 포함한 문자
+
+escape 문자인 `\`를 이용하여 다른 문자를 표시하는 문자가 몇 가지 존재합니다. 이 문자들의 경우는 다른 문자와 다르게 <u>두 셀을 차지하지만 하나의 문자로 간주</u>합니다. 즉, 입력 커맨드를 수행중인 프로브에 의해 코드에 입력받는 문자열을 작성하는 경우 두 셀을 차지하지만 출력 커맨드를 수행중인 프로브에 의해 코드의 내용을 출력할 때에는 하나의 문자로 출력이 됩니다.
+
+- `\0`: 널 문자를 나타냅니다.
+- `\n`: 개행 문자를 나타냅니다.
+- `\t`: 탭 문자를 나타냅니다.
+- `\\`: \ 문자를 나타냅니다.
+
+`\` 문자 이후 위에 제시되지 않은 다른 문자가 나오는 경우 escape은 처리되지 않고 일반 문자처럼 연산이 진행됩니다.
+
+## 커맨드
+
+**커맨드**는 READ 포인터가 읽었을 때 어떤 연산을 실행할지 정의해주는 문자입니다. 커맨드는 총 3종류가 있는데, 각각 **이동 커맨드**, **비휘발성 커맨드**, **휘발성 커맨드**입니다. **이동 커맨드**는 프로브와 커서의 이동을 제어합니다. **비휘발성 커맨드**는 프로브가 지속적으로 특정 동작을 수행하도록 합니다. **휘발성 커맨드**는 단 한 번 특정 동작을 수행하도록 합니다. 커맨드의 우선 순위는 이동 커맨드가 가장 먼저이고, 그 뒤로 비휘발성 커맨드, 휘발성 커맨드의 순서입니다.
+
+커맨드는 READ 포인터가 **<u>읽는 즉시 연산을 진행</u>**합니다. 따라서 연산에 사용되는 READ 포인터와 WRITE 포인터를 같은 곳에 위치시키지 않는 것이 좋습니다. 다만, READ 포인터가 읽는 것이 커맨드가 아니라면 그냥 무시합니다. 즉, 커맨드가 아닌 다른 문자는 아무렇게나 넣어도 됩니다!
+
+### 이동 커맨드
+
+**이동 커맨드**는 프로브와 커서의 이동을 제어하는 커맨드입니다. Probie에서 이동시킬 수 있는 것은 프로브(READ 포인터, WRITE 포인터)와 MEM 커서이므로 이들의 이동을 제어하는 커맨드가 존재합니다.
+
+#### READ 포인터 이동
+
+READ 포인터의 이동은 이동 간격과 이동 방향으로 정의됩니다. READ 포인터의 이동은 프로브의 이동과 동치이므로 프로브의 이동을 제어하는 역할을 하는 커맨드라고도 할 수 있습니다.
+
+|커맨드|설명|
+|:-:|-|
+|`>`|READ 포인터의 이동 간격을 1 증가시킵니다.|
+|`<`|READ 포인터의 이동 간격을 1 감소시킵니다. 이동 간격이 0이 되면 프로그램을 종료합니다.|
+|`R`|READ 포인터의 이동 방향을 시계 방향으로 90도 돌립니다.|
+|`L`|READ 포인터의 이동 방향을 반시계 방향으로 90도 돌립니다.|
+
+#### WRITE 포인터 이동
+
+WRITE 포인터는 READ 포인터에 대한 상대 위치로 정의되므로 상대 위치를 이동시키는 커맨드가 존재합니다.
+
+|커맨드|설명|
+|:-:|-|
+|`→`|READ 포인터에 대한 WRITE 포인터의 상대 위치의 x좌표를 1 증가시킵니다.|
+|`←`|READ 포인터에 대한 WRITE 포인터의 상대 위치의 x좌표를 1 감소시킵니다.|
+|`↑`|READ 포인터에 대한 WRITE 포인터의 상대 위치의 y좌표를 1 감소시킵니다.|
+|`↓`|READ 포인터에 대한 WRITE 포인터의 상대 위치의 y좌표를 1 증가시킵니다.|
+
+#### MEM 커서 이동
+
+MEM 커서는 프로브와 독립적으로 이동하므로 필요에 의해 두 종류의 이동이 존재합니다.
+
+|커맨드|설명|
+|:-:|-|
+|`△`|MEM 커서의 y좌표를 1 감소시킵니다.|
+|`▽`|MEM 커서의 y좌표를 1 증가시킵니다.|
+|`◁`|MEM 커서의 x좌표를 1 감소시킵니다.|
+|`▷`|MEM 커서의 x좌표를 1 증가시킵니다.|
+|`▲`|MEM 커서의 y좌표를 프로브의 이동 간격만큼 감소시킵니다.|
+|`▼`|MEM 커서의 y좌표를 프로브의 이동 간격만큼 증가시킵니다.|
+|`◀`|MEM 커서의 x좌표를 프로브의 이동 간격만큼 감소시킵니다.|
+|`▶`|MEM 커서의 x좌표를 프로브의 이동 간격만큼 증가시킵니다.|
+
+### 비휘발성 커맨드
+
+**비휘발성 커맨드**는 지속적으로 특정 동작을 수행하게 하는 커맨드입니다. 다른 비휘발성 커맨드나 비휘발성 커맨드를 중지하는 커맨드를 읽기 전까지는 계속 지정된 동작을 수행합니다.
+
+|커맨드|설명|
+|:-:|-|
+|`S`|프로브에 WRITE 포인터가 가리키는 셀의 값을 저장합니다.|
+|`s`|WRITE 포인터가 가리키는 셀에 프로브에 저장된 값을 저장합니다.|
+|`P`|WRITE 포인터가 가리키는 셀의 값을 표준 출력에 출력합니다.|
+|`I`|표준 입력으로부터 받은 문자를 WRITE 포인터가 가리키는 셀에 저장합니다.|
+|`X`|다른 비휘발성 커맨드를 중지합니다.|
+
+### 휘발성 커맨드
+
+**휘발성 커맨드**는 한 번 특정 동작을 수행하게 하는 커맨드입니다. 이 커맨드 중에는 연산 결과에 따라 프로브의 위치를 이동시키는 커맨드도 존재합니다.
+
+#### 조건문
+
+조건문은 조건의 참/거짓 여부에 따라 프로브를 즉시 이동시킵니다. 프로브의 방향이나 이동 간격에는 영향을 끼치지 않습니다.
+
+|커맨드|설명|
+|:-:|-|
+|`{`|현재 프로브의 위치를 기준으로 한 칸 위의 셀과 한 칸 아래의 셀의 값을 비교합니다. 위쪽 셀의 값이 더 크다면 프로브를 왼쪽으로, 그렇지 않다면 프로브를 오른쪽으로 1칸 이동시킵니다.|
+|`}`|현재 프로브의 위치를 기준으로 한 칸 위의 셀과 한 칸 아래의 셀의 값을 비교합니다. 위쪽 셀의 값이 더 크다면 프로브를 오른쪽으로, 그렇지 않다면 프로브를 왼쪽으로 1칸 이동시킵니다.|
+|`∧`|현재 프로브의 위치를 기준으로 한 칸 왼쪽의 셀과 한 칸 오른쪽의 셀의 값을 비교합니다. 왼쪽 셀의 값이 더 크다면 프로브를 위쪽으로, 그렇지 않다면 프로브를 아래쪽으로 1칸 이동시킵니다.|
+|`∨`|현재 프로브의 위치를 기준으로 한 칸 왼쪽의 셀과 한 칸 오른쪽의 셀의 값을 비교합니다. 왼쪽 셀의 값이 더 크다면 프로브를 아래쪽으로, 그렇지 않다면 프로브를 위쪽으로 1칸 이동시킵니다.|
+|`↔`|프로브에 저장된 값과 WRITE 포인터가 가리키는 셀의 값을 비교합니다. 프로브에 저장된 값이 크다면 프로브를 왼쪽으로, 그렇지 않다면 프로브를 오른쪽으로 1칸 이동시킵니다.|
+|`↕`|프로브에 저장된 값과 WRITE 포인터가 가리키는 셀의 값을 비교합니다. 프로브에 저장된 값이 크다면 프로브를 위쪽으로, 그렇지 않다면 프로브를 아래쪽으로 1칸 이동시킵니다.|
+
+#### 연산자
+
+Probie 언어의 특성 상 0~127의 값만 저장할 수 있기 때문에 연산을 진행한 후 128로 나눈 나머지가 셀에 저장됩니다.
+
+|커맨드|설명|
+|:-:|-|
+|`+`|WRITE 포인터가 가리키는 셀의 값에 프로브에 저장된 값을 더합니다.|
+|`-`|WRITE 포인터가 가리키는 셀의 값에서 프로브에 저장된 값을 뻅니다.|
+|`×`|WRITE 포인터가 가리키는 셀의 값에 프로브에 저장된 값을 곱합니다.|
+|`÷`|WRITE 포인터가 가리키는 셀의 값을 프로브에 저장된 값으로 나눕니다.|
+|`%`|WRITE 포인터가 가리키는 셀의 값을 프로브에 저장된 값으로 나눈 나머지를 구합니다.|
+|`A`|프로브에 저장된 값에 WRITE 포인터가 가리키는 셀의 값을 더합니다.|
+|`D`|프로브에 저장된 값에서 WRITE 포인터가 가리키는 셀의 값을 뺍니다.|
+|`M`|프로브에 저장된 값에 WRITE 포인터가 가리키는 셀의 값을 곱합니다.|
+|`d`|프로브에 저장된 값을 WRITE 포인터가 가리키는 셀의 값으로 나눕니다.|
+|`m`|프로브에 저장된 값을 WRITE 포인터가 가리키는 셀의 값으로 나눈 나머지를 구합니다.|
+
+#### MEM 커서와의 상호 작용
+
+|커맨드|설명|
+|:-:|-|
+|`[`|프로브에 MEM 커서가 가리키는 셀의 값을 저장합니다.|
+|`]`|MEM 커서가 가리키는 셀에 프로브에 저장된 값을 저장합니다.|
+|`_`|MEM 커서의 x좌표를 프로브에 저장된 값으로 바꿉니다.|
+|`|`|MEM 커서의 y좌표를 프로브에 저장된 값으로 바꿉니다.|
+
+### 코드 예시
+
+예제 코드는 [여기]({{ site.baseurl }}/docs/codes)서 찾아볼 수 있습니다.

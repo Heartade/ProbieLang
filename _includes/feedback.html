@@ -13,15 +13,16 @@
     display: block;
   }
 </style>
-<h5 class="feedback--title">Feedback</h5>
-<p class="feedback--question">Was this page helpful?</p>
-<button class="feedback--answer feedback--answer-yes">Yes</button>
-<button class="feedback--answer feedback--answer-no">No</button>
+<hr />
+<h5 class="feedback--title">피드백</h5>
+<p class="feedback--question">이 페이지가 유용했나요?</p>
+<button class="feedback--answer feedback--answer-yes">넹</button>
+<button class="feedback--answer feedback--answer-no">아니요;;</button>
 <p class="feedback--response feedback--response-yes">
-  Glad to hear it! Please <a href="{{ site.repo }}/issues/new">tell us how we can improve</a>.
+  그것 참 좋은 소식이네요! 혹시 <a href="{{ site.repo }}/issues/new">개선할 점</a>이 있진 않나요?
 </p>
 <p class="feedback--response feedback--response-no">
-  Sorry to hear that. Please <a href="{{ site.repo  }}/issues/new">tell us how we can improve</a>.
+  저런, <a href="{{ site.repo  }}/issues/new">무엇이 문제</a>였는지 알려주세요.
 </p>
 <script>
   const yesButton = document.querySelector('.feedback--answer-yes');
