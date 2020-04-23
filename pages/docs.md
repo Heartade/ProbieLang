@@ -10,7 +10,8 @@ permalink: /docs/
 
 <div class="section-index">
     <hr class="panel-line">
-    {% for post in site.docs %}
+    {% assign docs = site.docs | where_exp: "item", "item.exclude == nil" %}
+    {% for post in docs %}
     <div class="entry">
     <h5><a href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a></h5>
     <p>{{ post.description }}</p>
