@@ -1,0 +1,49 @@
+<html>
+
+<head>
+    <link href="./test.css" rel="stylesheet">
+    <script src="./probie.js" charset="utf-8"></script>
+    <script>
+        var p = undefined;
+
+        function run() {
+            var t = document.getElementById("code").value;
+            p = new Probie(t, stdoutcb, stderrcb, stdcodecb);
+            p.run_auto();
+            console.log("Done");
+        }
+
+        function step() {
+            if (typeof p !== "object") {
+                var t = document.getElementById("code").value;
+                console.log(t);
+                p = new Probie(t, stdoutcb, stderrcb, stdcodecb);
+            }
+            p.run_step();
+            if (p.isstopped()) {
+                p = undefined;
+            }
+        }
+
+        var stdoutcb = function (c, text) {
+            document.getElementById("output").value = text;
+        }
+
+        var stderrcb = function (c, text) {
+            console.error(c);
+        }
+
+        var stdcodecb = function (c) {
+            document.getElementById("code").value = c.join('\n');
+        }
+    </script>
+</head>
+
+<body>
+    <p>Code<br /><textarea id="code" style="font-family:'Monospace',monospace;"></textarea></p>
+    <p>Output<br /><textarea id="output" style="font-family:'Monospace',monospace;" disabled=true></textarea></p>
+    <p><button onclick="run()">Run</button></p>
+    <p><button onclick="step()">Step</button></p>
+</body>
+
+</html>
