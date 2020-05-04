@@ -988,7 +988,7 @@ var Probie = class {
                 this.isinput = true;
                 while (this.stdin.length === 0) {
                     var input_text = prompt(
-                        "Input text is needed. Please enter text below.",
+                        "Input needed. Please fill below.",
                         ""
                     );
                     this.stdin += input_text;
