@@ -692,7 +692,7 @@ var Probie = class {
                         "Input needed. Please fill below.",
                         ""
                     );
-                    this.stdin += input_text;
+                    this.read_c(input_text);
                 }
                 this.isinput = false;
                 if (
