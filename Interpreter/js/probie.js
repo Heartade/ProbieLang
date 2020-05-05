@@ -621,13 +621,7 @@ var Probie = class {
                     Probie.check_coor(this.w_y(), this.field.length) ||
                     Probie.check_coor(this.w_x(), this.field[this.w_y()].length)
                 ) {
-                    this.error_c(
-                        "'s': WRITE pointer out of field: [" +
-                            this.w_y() +
-                            ", " +
-                            this.w_x() +
-                            "]"
-                    );
+                    this.error_write("s");
                     return;
                 } else {
                     console.log(
@@ -640,10 +634,7 @@ var Probie = class {
                             ")"
                     );
                     var s = this.field[this.w_y()];
-                    s =
-                        s.substring(0, this.w_x()) +
-                        this.data +
-                        s.substring(this.w_x() + 1);
+                    Probie.replace(s, this.w_x(), this.data);
                     this.field[this.w_y()] = s;
                 }
                 break;
@@ -652,13 +643,7 @@ var Probie = class {
                     Probie.check_coor(this.w_y(), this.field.length) ||
                     Probie.check_coor(this.w_x(), this.field[this.w_y()].length)
                 ) {
-                    this.error_c(
-                        "'P': WRITE pointer out of field: [" +
-                            this.w_y() +
-                            ", " +
-                            this.w_x() +
-                            "]"
-                    );
+                    this.error_write("P");
                     return;
                 } else {
                     var c = this.field[this.w_y()][this.w_x()];
@@ -699,20 +684,11 @@ var Probie = class {
                     Probie.check_coor(this.w_y(), this.field.length) ||
                     Probie.check_coor(this.w_x(), this.field[this.w_y()].length)
                 ) {
-                    this.error_c(
-                        "'I': WRITE pointer out of field: [" +
-                            this.w_y() +
-                            ", " +
-                            this.w_x() +
-                            "]"
-                    );
+                    this.error_write("I");
                     return;
                 } else {
                     var s = this.field[this.w_y()];
-                    s =
-                        s.substring(0, this.w_x()) +
-                        this.stdin[0] +
-                        s.substring(this.w_x() + 1);
+                    Probie.replace(s, this.w_x(), this.stdin[0]);
                     this.field[this.w_y()] = s;
                 }
                 this.stdin = this.stdin.substring(1);
