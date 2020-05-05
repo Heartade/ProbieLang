@@ -595,11 +595,6 @@ var Probie = class {
         throw Error(c);
     }
 
-    // code output
-    code_c() {
-        this.stdcodecb(this.field);
-    }
-
     operate() {
         switch (this.nvstate) {
             case 1:
