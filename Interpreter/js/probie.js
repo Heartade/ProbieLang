@@ -138,6 +138,14 @@ var Probie = class {
         return x < 0 || x >= l;
     }
 
+    static get_value(x) {
+        return x in values ? values[x] : 0;
+    }
+
+    static replace(s, index, c) {
+        return s.substring(0, index) + c + s.substring(index + 1);
+    }
+
     constructor(text, stdoutcb, stderrcb, stdcodecb) {
         this.stdin = "";
         this.stdout = "";
@@ -197,61 +205,33 @@ var Probie = class {
         this.func4 = {
             "{": () => {
                 if (Probie.check_coor(this.r[0] - 1, this.field.length - 2)) {
-                    this.error_c(
-                        "'{': comparing cells out of field: [" +
-                            (this.r[0] - 1) +
-                            ", " +
-                            this.r[1] +
-                            "], [" +
-                            (this.r[0] + 1) +
-                            ", " +
-                            this.r[1] +
-                            "]"
+                    this.error_comp(
+                        "{",
+                        this.r[0] - 1,
+                        this.r[1],
+                        this.r[0] + 1,
+                        this.r[1]
                     );
                     return;
                 }
-                var t =
-                    this.field[this.r[0] - 1][this.r[1]] in values
-                        ? values[this.field[this.r[0] - 1][this.r[1]]]
-                        : 0;
-                var u =
-                    this.field[this.r[0] + 1][this.r[1]] in values
-                        ? values[this.field[this.r[0] + 1][this.r[1]]]
-                        : 0;
-                if (t > u) {
-                    this.r[1] -= 1;
-                } else {
-                    this.r[1] += 1;
-                }
+                var t = this.get_value_coor(this.r[0] - 1, this.r[1]);
+                var u = this.get_value_coor(this.r[0] + 1, this.r[1]);
+                this.r[1] += t > u ? -1 : 1;
             },
             "}": () => {
                 if (Probie.check_coor(this.r[0] - 1, this.field.length - 2)) {
-                    this.error_c(
-                        "'}': comparing cells out of field: [" +
-                            (this.r[0] - 1) +
-                            ", " +
-                            this.r[1] +
-                            "], [" +
-                            (this.r[0] + 1) +
-                            ", " +
-                            this.r[1] +
-                            "]"
+                    this.error_comp(
+                        "}",
+                        this.r[0] - 1,
+                        this.r[1],
+                        this.r[0] + 1,
+                        this.r[1]
                     );
                     return;
                 }
-                var t =
-                    this.field[this.r[0] - 1][this.r[1]] in values
-                        ? values[this.field[this.r[0] - 1][this.r[1]]]
-                        : 0;
-                var u =
-                    this.field[this.r[0] + 1][this.r[1]] in values
-                        ? values[this.field[this.r[0] + 1][this.r[1]]]
-                        : 0;
-                if (t > u) {
-                    this.r[1] += 1;
-                } else {
-                    this.r[1] -= 1;
-                }
+                var t = this.get_value_coor(this.r[0] - 1, this.r[1]);
+                var u = this.get_value_coor(this.r[0] + 1, this.r[1]);
+                this.r[1] += t > u ? 1 : -1;
             },
             "∧": () => {
                 if (
@@ -261,32 +241,18 @@ var Probie = class {
                         this.field[this.r[0]].length - 2
                     )
                 ) {
-                    this.error_c(
-                        "'∧': comparing cells out of field: [" +
-                            this.r[0] +
-                            ", " +
-                            (this.r[1] - 1) +
-                            "], " +
-                            this.r[0] +
-                            ", " +
-                            (this.r[1] + 1) +
-                            "]"
+                    this.error_comp(
+                        "∧",
+                        this.r[0],
+                        this.r[1] - 1,
+                        this.r[0],
+                        this.r[1] + 1
                     );
                     return;
                 }
-                var t =
-                    this.field[this.r[0]][this.r[1] - 1] in values
-                        ? values[this.field[this.r[0]][this.r[1] - 1]]
-                        : 0;
-                var u =
-                    this.field[this.r[0]][this.r[1] + 1] in values
-                        ? values[this.field[this.r[0]][this.r[1] + 1]]
-                        : 0;
-                if (t > u) {
-                    this.r[0] -= 1;
-                } else {
-                    this.r[0] += 1;
-                }
+                var t = this.get_value_coor(this.r[0], this.r[1] - 1);
+                var u = this.get_value_coor(this.r[0], this.r[1] + 1);
+                this.r[0] += t > u ? -1 : 1;
             },
             "∨": () => {
                 if (
@@ -296,459 +262,182 @@ var Probie = class {
                         this.field[this.r[0]].length - 2
                     )
                 ) {
-                    this.error_c(
-                        "'∨': comparing cells out of field: [" +
-                            this.r[0] +
-                            ", " +
-                            (this.r[1] - 1) +
-                            "], " +
-                            this.r[0] +
-                            ", " +
-                            (this.r[1] + 1) +
-                            "]"
+                    this.error_comp(
+                        "∨",
+                        this.r[0],
+                        this.r[1] - 1,
+                        this.r[0],
+                        this.r[1] + 1
                     );
                     return;
                 }
-                var t =
-                    this.field[this.r[0]][this.r[1] - 1] in values
-                        ? values[this.field[this.r[0]][this.r[1] - 1]]
-                        : 0;
-                var u =
-                    this.field[this.r[0]][this.r[1] + 1] in values
-                        ? values[this.field[this.r[0]][this.r[1] + 1]]
-                        : 0;
-                if (t > u) {
-                    this.r[0] += 1;
-                } else {
-                    this.r[0] -= 1;
-                }
+                var t = this.get_value_coor(this.r[0], this.r[1] - 1);
+                var u = this.get_value_coor(this.r[0], this.r[1] + 1);
+                this.r[0] += t > u ? 1 : -1;
             },
             "↔": () => {
                 if (
-                    Probie.check_coor(
-                        this.r[0] + this.w[0],
-                        this.field.length
-                    ) ||
-                    Probie.check_coor(
-                        this.r[1] + this.w[1],
-                        this.field[this.r[0] + this.w[0]].length
-                    )
+                    Probie.check_coor(this.w_y(), this.field.length) ||
+                    Probie.check_coor(this.w_x(), this.field[this.w_y()].length)
                 ) {
-                    this.error_c(
-                        "'↔': WRITE pointer out of field: [" +
-                            (this.r[0] + this.w[0]) +
-                            ", " +
-                            (this.r[1] + this.w[1]) +
-                            "]"
-                    );
+                    this.error_write("↔");
                     return;
                 }
                 var t = this.data in values ? values[this.data] : 0;
-                var u =
-                    this.field[this.r[0] + this.w[0]][this.r[1] + this.w[1]] in
-                    values
-                        ? values[
-                              this.field[this.r[0] + this.w[0]][
-                                  this.r[1] + this.w[1]
-                              ]
-                          ]
-                        : 0;
-                if (t > u) {
-                    this.r[1] -= 1;
-                } else {
-                    this.r[1] += 1;
-                }
+                var u = this.get_value_write();
+                this.r[1] += t > u ? -1 : 1;
             },
             "↕": () => {
                 if (
-                    Probie.check_coor(
-                        this.r[0] + this.w[0],
-                        this.field.length
-                    ) ||
-                    Probie.check_coor(
-                        this.r[1] + this.w[1],
-                        this.field[this.r[0] + this.w[0]].length
-                    )
+                    Probie.check_coor(this.w_y(), this.field.length) ||
+                    Probie.check_coor(this.w_x(), this.field[this.w_y()].length)
                 ) {
-                    this.error_c(
-                        "'↕': WRITE pointer out of field: [" +
-                            (this.r[0] + this.w[0]) +
-                            ", " +
-                            (this.r[1] + this.w[1]) +
-                            "]"
-                    );
+                    this.error_write("↕");
                     return;
                 }
-                var t = this.data in values ? values[this.data] : 0;
-                var u =
-                    this.field[this.r[0] + this.w[0]][this.r[1] + this.w[1]] in
-                    values
-                        ? values[
-                              this.field[this.r[0] + this.w[0]][
-                                  this.r[1] + this.w[1]
-                              ]
-                          ]
-                        : 0;
-                if (t > u) {
-                    this.r[0] -= 1;
-                } else {
-                    this.r[0] += 1;
-                }
+                var t = Probie.get_value(this.data);
+                var u = this.get_value_write();
+                this.r[0] += t > u ? -1 : 1;
             },
         }; // condition
         this.func5 = {
             "+": () => {
                 if (
-                    Probie.check_coor(
-                        this.r[0] + this.w[0],
-                        this.field.length
-                    ) ||
-                    Probie.check_coor(
-                        this.r[1] + this.w[1],
-                        this.field[this.r[0] + this.w[0]].length
-                    )
+                    Probie.check_coor(this.w_y(), this.field.length) ||
+                    Probie.check_coor(this.w_x(), this.field[this.w_y()].length)
                 ) {
-                    this.error_c(
-                        "'+': WRITE pointer out of field: [" +
-                            (this.r[0] + this.w[0]) +
-                            ", " +
-                            (this.r[1] + this.w[1]) +
-                            "]"
-                    );
+                    this.error_write("+");
                     return;
                 }
-                var c =
-                    this.field[this.r[0] + this.w[0]][this.r[1] + this.w[1]] in
-                    values
-                        ? values[
-                              this.field[this.r[0] + this.w[0]][
-                                  this.r[1] + this.w[1]
-                              ]
-                          ]
-                        : 0;
-                c += this.data in values ? values[this.data] : 0;
+                var c = this.get_value_write();
+                c += Probie.get_value(this.data);
                 c = (c + 128) % 128;
-                var s = this.field[this.r[0] + this.w[0]];
-                s =
-                    s.substring(0, this.r[1] + this.w[1]) +
-                    symbols[c] +
-                    s.substring(this.r[1] + this.w[1] + 1);
-                this.field[this.r[0] + this.w[0]] = s;
+                var s = this.field[this.w_y()];
+                s = Probie.replace(s, this.w_x(), symbols[c]);
+                this.field[this.w_y()] = s;
             },
             "-": () => {
                 if (
-                    Probie.check_coor(
-                        this.r[0] + this.w[0],
-                        this.field.length
-                    ) ||
-                    Probie.check_coor(
-                        this.r[1] + this.w[1],
-                        this.field[this.r[0] + this.w[0]].length
-                    )
+                    Probie.check_coor(this.w_y(), this.field.length) ||
+                    Probie.check_coor(this.w_x(), this.field[this.w_y()].length)
                 ) {
-                    this.error_c(
-                        "'-': WRITE pointer out of field: [" +
-                            (this.r[0] + this.w[0]) +
-                            ", " +
-                            (this.r[1] + this.w[1]) +
-                            "]"
-                    );
+                    this.error_write("-");
                     return;
                 }
-                var c =
-                    this.field[this.r[0] + this.w[0]][this.r[1] + this.w[1]] in
-                    values
-                        ? values[
-                              this.field[this.r[0] + this.w[0]][
-                                  this.r[1] + this.w[1]
-                              ]
-                          ]
-                        : 0;
-                c -= this.data in values ? values[this.data] : 0;
+                var c = this.get_value_write();
+                c -= Probie.get_value(this.data);
                 c = (c + 128) % 128;
-                var s = this.field[this.r[0] + this.w[0]];
-                s =
-                    s.substring(0, this.r[1] + this.w[1]) +
-                    symbols[c] +
-                    s.substring(this.r[1] + this.w[1] + 1);
-                this.field[this.r[0] + this.w[0]] = s;
+                var s = this.field[this.w_y()];
+                s = Probie.replace(s, this.w_x(), symbols[c]);
+                this.field[this.w_y()] = s;
             },
             "×": () => {
                 if (
-                    Probie.check_coor(
-                        this.r[0] + this.w[0],
-                        this.field.length
-                    ) ||
-                    Probie.check_coor(
-                        this.r[1] + this.w[1],
-                        this.field[this.r[0] + this.w[0]].length
-                    )
+                    Probie.check_coor(this.w_y(), this.field.length) ||
+                    Probie.check_coor(this.w_x(), this.field[this.w_y()].length)
                 ) {
-                    this.error_c(
-                        "'×': WRITE pointer out of field: [" +
-                            (this.r[0] + this.w[0]) +
-                            ", " +
-                            (this.r[1] + this.w[1]) +
-                            "]"
-                    );
+                    this.error_write("×");
                     return;
                 }
-                var c =
-                    this.field[this.r[0] + this.w[0]][this.r[1] + this.w[1]] in
-                    values
-                        ? values[
-                              this.field[this.r[0] + this.w[0]][
-                                  this.r[1] + this.w[1]
-                              ]
-                          ]
-                        : 0;
-                c *= this.data in values ? values[this.data] : 0;
+                var c = this.get_value_write();
+                c *= Probie.get_value(this.data);
                 c = (c + 128) % 128;
-                var s = this.field[this.r[0] + this.w[0]];
-                s =
-                    s.substring(0, this.r[1] + this.w[1]) +
-                    symbols[c] +
-                    s.substring(this.r[1] + this.w[1] + 1);
-                this.field[this.r[0] + this.w[0]] = s;
+                var s = this.field[this.w_y()];
+                s = Probie.replace(s, this.w_x(), symbols[c]);
+                this.field[this.w_y()] = s;
             },
             "÷": () => {
                 if (
-                    Probie.check_coor(
-                        this.r[0] + this.w[0],
-                        this.field.length
-                    ) ||
-                    Probie.check_coor(
-                        this.r[1] + this.w[1],
-                        this.field[this.r[0] + this.w[0]].length
-                    )
+                    Probie.check_coor(this.w_y(), this.field.length) ||
+                    Probie.check_coor(this.w_x(), this.field[this.w_y()].length)
                 ) {
-                    this.error_c(
-                        "'÷': WRITE pointer out of field: [" +
-                            (this.r[0] + this.w[0]) +
-                            ", " +
-                            (this.r[1] + this.w[1]) +
-                            "]"
-                    );
+                    this.error_write("÷");
                     return;
                 }
-                var c =
-                    this.field[this.r[0] + this.w[0]][this.r[1] + this.w[1]] in
-                    values
-                        ? values[
-                              this.field[this.r[0] + this.w[0]][
-                                  this.r[1] + this.w[1]
-                              ]
-                          ]
-                        : 0;
-                c /= this.data in values ? values[this.data] : 0;
+                var c = this.get_value_write();
+                c /= Probie.get_value(this.data);
                 c = (c + 128) % 128;
-                var s = this.field[this.r[0] + this.w[0]];
-                s =
-                    s.substring(0, this.r[1] + this.w[1]) +
-                    symbols[c] +
-                    s.substring(this.r[1] + this.w[1] + 1);
-                this.field[this.r[0] + this.w[0]] = s;
+                var s = this.field[this.w_y()];
+                s = Probie.replace(s, this.w_x(), symbols[c]);
+                this.field[this.w_y()] = s;
             },
             "%": () => {
                 if (
-                    Probie.check_coor(
-                        this.r[0] + this.w[0],
-                        this.field.length
-                    ) ||
-                    Probie.check_coor(
-                        this.r[1] + this.w[1],
-                        this.field[this.r[0] + this.w[0]].length
-                    )
+                    Probie.check_coor(this.w_y(), this.field.length) ||
+                    Probie.check_coor(this.w_x(), this.field[this.w_y()].length)
                 ) {
-                    this.error_c(
-                        "'%': WRITE pointer out of field: [" +
-                            (this.r[0] + this.w[0]) +
-                            ", " +
-                            (this.r[1] + this.w[1]) +
-                            "]"
-                    );
+                    this.error_write("%");
                     return;
                 }
-                var c =
-                    this.field[this.r[0] + this.w[0]][this.r[1] + this.w[1]] in
-                    values
-                        ? values[
-                              this.field[this.r[0] + this.w[0]][
-                                  this.r[1] + this.w[1]
-                              ]
-                          ]
-                        : 0;
-                c %= this.data in values ? values[this.data] : 0;
+                var c = this.get_value_write();
+                c %= Probie.get_value(this.data);
                 c = (c + 128) % 128;
-                var s = this.field[this.r[0] + this.w[0]];
-                s =
-                    s.substring(0, this.r[1] + this.w[1]) +
-                    symbols[c] +
-                    s.substring(this.r[1] + this.w[1] + 1);
-                this.field[this.r[0] + this.w[0]] = s;
+                var s = this.field[this.w_y()];
+                s = Probie.replace(s, this.w_x(), symbols[c]);
+                this.field[this.w_y()] = s;
             },
             A: () => {
                 if (
-                    Probie.check_coor(
-                        this.r[0] + this.w[0],
-                        this.field.length
-                    ) ||
-                    Probie.check_coor(
-                        this.r[1] + this.w[1],
-                        this.field[this.r[0] + this.w[0]].length
-                    )
+                    Probie.check_coor(this.w_y(), this.field.length) ||
+                    Probie.check_coor(this.w_x(), this.field[this.w_y()].length)
                 ) {
-                    this.error_c(
-                        "'A': WRITE pointer out of field: [" +
-                            (this.r[0] + this.w[0]) +
-                            ", " +
-                            (this.r[1] + this.w[1]) +
-                            "]"
-                    );
+                    this.error_write("A");
                     return;
                 }
-                var c =
-                    this.field[this.r[0] + this.w[0]][this.r[1] + this.w[1]] in
-                    values
-                        ? values[
-                              this.field[this.r[0] + this.w[0]][
-                                  this.r[1] + this.w[1]
-                              ]
-                          ]
-                        : 0;
-                c += this.data in values ? values[this.data] : 0;
+                var c = this.get_value_write();
+                c += Probie.get_value(this.data);
                 c = (c + 128) % 128;
                 this.data = symbols[c];
             },
             D: () => {
                 if (
-                    Probie.check_coor(
-                        this.r[0] + this.w[0],
-                        this.field.length
-                    ) ||
-                    Probie.check_coor(
-                        this.r[1] + this.w[1],
-                        this.field[this.r[0] + this.w[0]].length
-                    )
+                    Probie.check_coor(this.w_y(), this.field.length) ||
+                    Probie.check_coor(this.w_x(), this.field[this.w_y()].length)
                 ) {
-                    this.error_c(
-                        "'D': WRITE pointer out of field: [" +
-                            (this.r[0] + this.w[0]) +
-                            ", " +
-                            (this.r[1] + this.w[1]) +
-                            "]"
-                    );
+                    this.error_write("D");
                     return;
                 }
-                var c =
-                    this.field[this.r[0] + this.w[0]][this.r[1] + this.w[1]] in
-                    values
-                        ? values[
-                              this.field[this.r[0] + this.w[0]][
-                                  this.r[1] + this.w[1]
-                              ]
-                          ]
-                        : 0;
-                c -= this.data in values ? values[this.data] : 0;
+                var c = this.get_value_write();
+                c -= Probie.get_value(this.data);
                 c = (c + 128) % 128;
                 this.data = symbols[c];
             },
             M: () => {
                 if (
-                    Probie.check_coor(
-                        this.r[0] + this.w[0],
-                        this.field.length
-                    ) ||
-                    Probie.check_coor(
-                        this.r[1] + this.w[1],
-                        this.field[this.r[0] + this.w[0]].length
-                    )
+                    Probie.check_coor(this.w_y(), this.field.length) ||
+                    Probie.check_coor(this.w_x(), this.field[this.w_y()].length)
                 ) {
-                    this.error_c(
-                        "'M': WRITE pointer out of field: [" +
-                            (this.r[0] + this.w[0]) +
-                            ", " +
-                            (this.r[1] + this.w[1]) +
-                            "]"
-                    );
+                    this.error_write("M");
                     return;
                 }
-                var c =
-                    this.field[this.r[0] + this.w[0]][this.r[1] + this.w[1]] in
-                    values
-                        ? values[
-                              this.field[this.r[0] + this.w[0]][
-                                  this.r[1] + this.w[1]
-                              ]
-                          ]
-                        : 0;
-                c *= this.data in values ? values[this.data] : 0;
+                var c = this.get_value_write();
+                c *= Probie.get_value(this.data);
                 c = (c + 128) % 128;
                 this.data = symbols[c];
             },
             d: () => {
                 if (
-                    Probie.check_coor(
-                        this.r[0] + this.w[0],
-                        this.field.length
-                    ) ||
-                    Probie.check_coor(
-                        this.r[1] + this.w[1],
-                        this.field[this.r[0] + this.w[0]].length
-                    )
+                    Probie.check_coor(this.w_y(), this.field.length) ||
+                    Probie.check_coor(this.w_x(), this.field[this.w_y()].length)
                 ) {
-                    this.error_c(
-                        "'d': WRITE pointer out of field: [" +
-                            (this.r[0] + this.w[0]) +
-                            ", " +
-                            (this.r[1] + this.w[1]) +
-                            "]"
-                    );
+                    this.error_write("d");
                     return;
                 }
-                var c =
-                    this.field[this.r[0] + this.w[0]][this.r[1] + this.w[1]] in
-                    values
-                        ? values[
-                              this.field[this.r[0] + this.w[0]][
-                                  this.r[1] + this.w[1]
-                              ]
-                          ]
-                        : 0;
-                c /= this.data in values ? values[this.data] : 0;
+                var c = this.get_value_write();
+                c /= Probie.get_value(this.data);
                 c = (c + 128) % 128;
                 this.data = symbols[c];
             },
             m: () => {
                 if (
-                    Probie.check_coor(
-                        this.r[0] + this.w[0],
-                        this.field.length
-                    ) ||
-                    Probie.check_coor(
-                        this.r[1] + this.w[1],
-                        this.field[this.r[0] + this.w[0]].length
-                    )
+                    Probie.check_coor(this.w_y(), this.field.length) ||
+                    Probie.check_coor(this.w_x(), this.field[this.w_y()].length)
                 ) {
-                    this.error_c(
-                        "'m': WRITE pointer out of field: [" +
-                            (this.r[0] + this.w[0]) +
-                            ", " +
-                            (this.r[1] + this.w[1]) +
-                            "]"
-                    );
+                    this.error_write("m");
                     return;
                 }
-                var c =
-                    this.field[this.r[0] + this.w[0]][this.r[1] + this.w[1]] in
-                    values
-                        ? values[
-                              this.field[this.r[0] + this.w[0]][
-                                  this.r[1] + this.w[1]
-                              ]
-                          ]
-                        : 0;
-                c %= this.data in values ? values[this.data] : 0;
+                var c = this.get_value_write();
+                c %= Probie.get_value(this.data);
                 c = (c + 128) % 128;
                 this.data = symbols[c];
             },
@@ -759,13 +448,7 @@ var Probie = class {
                     Probie.check_coor(this.m[0], this.field.length) ||
                     Probie.check_coor(this.m[1], this.field[this.m[0]].length)
                 ) {
-                    this.error_c(
-                        "'[': MEM cursor out of field: [" +
-                            this.m[0] +
-                            ", " +
-                            this.m[1] +
-                            "]"
-                    );
+                    this.error_mem("[");
                     return;
                 } else {
                     this.data = this.field[this.m[0]][this.m[1]];
@@ -776,26 +459,16 @@ var Probie = class {
                     Probie.check_coor(this.m[0], this.field.length) ||
                     Probie.check_coor(this.m[1], this.field[this.m[0]].length)
                 ) {
-                    this.error_c(
-                        "'[': MEM cursor out of field: [" +
-                            this.m[0] +
-                            ", " +
-                            this.m[1] +
-                            "]"
-                    );
+                    this.error_mem("]");
                     return;
                 } else {
                     var s = this.field[this.m[0]];
-                    s =
-                        s.substring(0, this.m[1]) +
-                        this.data +
-                        s.substring(this.m[1] + 1);
+                    s = Probie.replace(s, this.m[1], this.data);
                     this.field[this.m[0]] = s;
                 }
             },
-            _: () => (this.m[1] = this.data in values ? values[this.data] : 0),
-            "|": () =>
-                (this.m[0] = this.data in values ? values[this.data] : 0),
+            _: () => (this.m[1] = Probie.get_value(this.data)),
+            "|": () => (this.m[0] = Probie.get_value(this.data)),
         }; // mem interaction
     }
 
@@ -815,20 +488,28 @@ var Probie = class {
                 break;
         }
         if (
-            this.r[0] < 0 ||
-            this.r[0] >= this.field.length ||
-            this.r[1] < 0 ||
-            this.r[1] >= this.field[this.r[0]].length
+            Probie.check_coor(this.r[0], this.field.length) ||
+            Probie.check_coor(this.r[1], this.field[this.r[0]].length)
         ) {
-            this.error_c(
-                "READ pointer out of field: [" +
-                    this.r[0] +
-                    ", " +
-                    this.r[1] +
-                    "]"
-            );
+            this.error_read();
             return;
         }
+    }
+
+    get_value_coor(y, x) {
+        return Probie.get_value(this.field[y][x]);
+    }
+
+    get_value_write() {
+        return this.get_value_coor(this.w_y(), this.w_x());
+    }
+
+    w_y() {
+        return this.r[0] + this.w[0];
+    }
+
+    w_x() {
+        return this.r[1] + this.w[1];
     }
 
     // console input
@@ -858,6 +539,53 @@ var Probie = class {
         this.stdoutcb(c, this.stdout);
     }
 
+    // compare operation error log
+    error_comp(op, y1, x1, y2, x2) {
+        this.error_c(
+            "'" +
+                op +
+                "': comparing cells out of field: [" +
+                y1 +
+                ", " +
+                x1 +
+                "], [" +
+                y2 +
+                ", " +
+                x2 +
+                "]"
+        );
+    }
+
+    error_read() {
+        this.error_c(
+            "READ pointer out of field: [" + this.r[0] + ", " + this.r[1] + "]"
+        );
+    }
+
+    error_write(op) {
+        this.error_c(
+            "'" +
+                op +
+                "': WRITE pointer out of field: [" +
+                this.w_y() +
+                ", " +
+                this.w_x() +
+                "]"
+        );
+    }
+
+    error_mem(op) {
+        this.error_c(
+            "'" +
+                op +
+                ": MEM cursor out of field: [" +
+                this.m[0] +
+                ", " +
+                this.m[1] +
+                "]"
+        );
+    }
+
     // error output
     error_c(c) {
         this.stderr += c;
@@ -872,29 +600,21 @@ var Probie = class {
         this.stdcodecb(this.field);
     }
 
-    async operate() {
+    operate() {
         switch (this.nvstate) {
             case 1:
                 if (
-                    Probie.check_coor(
-                        this.r[0] + this.w[0],
-                        this.field.length
-                    ) ||
-                    Probie.check_coor(
-                        this.r[1] + this.w[1],
-                        this.field[this.r[0] + this.w[0]].length
-                    )
+                    Probie.check_coor(this.w_y(), this.field.length) ||
+                    Probie.check_coor(this.w_x(), this.field[this.w_y()].length)
                 ) {
                     this.data = "○";
                 } else {
-                    this.data = this.field[this.r[0] + this.w[0]][
-                        this.r[1] + this.w[1]
-                    ];
+                    this.data = this.field[this.w_y()][this.w_x()];
                     console.log(
                         "setting PROBE value as cell [" +
-                            (this.r[0] + this.w[0]) +
+                            this.w_y() +
                             ", " +
-                            (this.r[1] + this.w[1]) +
+                            this.w_x() +
                             "] (" +
                             this.data +
                             ")"
@@ -903,64 +623,50 @@ var Probie = class {
                 break;
             case 2:
                 if (
-                    Probie.check_coor(
-                        this.r[0] + this.w[0],
-                        this.field.length
-                    ) ||
-                    Probie.check_coor(
-                        this.r[1] + this.w[1],
-                        this.field[this.r[0] + this.w[0]].length
-                    )
+                    Probie.check_coor(this.w_y(), this.field.length) ||
+                    Probie.check_coor(this.w_x(), this.field[this.w_y()].length)
                 ) {
                     this.error_c(
                         "'s': WRITE pointer out of field: [" +
-                            (this.r[0] + this.w[0]) +
+                            this.w_y() +
                             ", " +
-                            (this.r[1] + this.w[1]) +
+                            this.w_x() +
                             "]"
                     );
                     return;
                 } else {
                     console.log(
                         "setting cell [" +
-                            (this.r[0] + this.w[0]) +
+                            this.w_y() +
                             ", " +
-                            (this.r[1] + this.w[1]) +
+                            this.w_x() +
                             "] as PROBE value(" +
                             this.data +
                             ")"
                     );
-                    var s = this.field[this.r[0] + this.w[0]];
+                    var s = this.field[this.w_y()];
                     s =
-                        s.substring(0, this.r[1] + this.w[1]) +
+                        s.substring(0, this.w_x()) +
                         this.data +
-                        s.substring(this.r[1] + this.w[1] + 1);
-                    this.field[this.r[0] + this.w[0]] = s;
+                        s.substring(this.w_x() + 1);
+                    this.field[this.w_y()] = s;
                 }
                 break;
             case 3:
                 if (
-                    Probie.check_coor(
-                        this.r[0] + this.w[0],
-                        this.field.length
-                    ) ||
-                    Probie.check_coor(
-                        this.r[1] + this.w[1],
-                        this.field[this.r[0] + this.w[0]].length
-                    )
+                    Probie.check_coor(this.w_y(), this.field.length) ||
+                    Probie.check_coor(this.w_x(), this.field[this.w_y()].length)
                 ) {
                     this.error_c(
                         "'P': WRITE pointer out of field: [" +
-                            (this.r[0] + this.w[0]) +
+                            this.w_y() +
                             ", " +
-                            (this.r[1] + this.w[1]) +
+                            this.w_x() +
                             "]"
                     );
                     return;
                 } else {
-                    var c = this.field[this.r[0] + this.w[0]][
-                        this.r[1] + this.w[1]
-                    ];
+                    var c = this.field[this.w_y()][this.w_x()];
                     if (c === "\\") {
                         if (this.isbackslash) {
                             this.write_c("\\");
@@ -995,30 +701,24 @@ var Probie = class {
                 }
                 this.isinput = false;
                 if (
-                    Probie.check_coor(
-                        this.r[0] + this.w[0],
-                        this.field.length
-                    ) ||
-                    Probie.check_coor(
-                        this.r[1] + this.w[1],
-                        this.field[this.r[0] + this.w[0]].length
-                    )
+                    Probie.check_coor(this.w_y(), this.field.length) ||
+                    Probie.check_coor(this.w_x(), this.field[this.w_y()].length)
                 ) {
                     this.error_c(
                         "'I': WRITE pointer out of field: [" +
-                            (this.r[0] + this.w[0]) +
+                            this.w_y() +
                             ", " +
-                            (this.r[1] + this.w[1]) +
+                            this.w_x() +
                             "]"
                     );
                     return;
                 } else {
-                    var s = this.field[this.r[0] + this.w[0]];
+                    var s = this.field[this.w_y()];
                     s =
-                        s.substring(0, this.r[1] + this.w[1]) +
+                        s.substring(0, this.w_x()) +
                         this.stdin[0] +
-                        s.substring(this.r[1] + this.w[1] + 1);
-                    this.field[this.r[0] + this.w[0]] = s;
+                        s.substring(this.w_x() + 1);
+                    this.field[this.w_y()] = s;
                 }
                 this.stdin = this.stdin.substring(1);
                 break;
@@ -1077,9 +777,9 @@ var Probie = class {
                 ", " +
                 this.r[1] +
                 "]\nWRITE   : [" +
-                (this.r[0] + this.w[0]) +
+                this.w_y() +
                 ", " +
-                (this.r[1] + this.w[1]) +
+                this.w_x() +
                 "]\nMEM     : [" +
                 this.m[0] +
                 ", " +
