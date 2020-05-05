@@ -634,7 +634,7 @@ var Probie = class {
                             ")"
                     );
                     var s = this.field[this.w_y()];
-                    Probie.replace(s, this.w_x(), this.data);
+                    s = Probie.replace(s, this.w_x(), this.data);
                     this.field[this.w_y()] = s;
                 }
                 break;
@@ -688,7 +688,7 @@ var Probie = class {
                     return;
                 } else {
                     var s = this.field[this.w_y()];
-                    Probie.replace(s, this.w_x(), this.stdin[0]);
+                    s = Probie.replace(s, this.w_x(), this.stdin[0]);
                     this.field[this.w_y()] = s;
                 }
                 this.stdin = this.stdin.substring(1);
