@@ -283,7 +283,7 @@ var Probie = class {
                     this.error_write("↔");
                     return;
                 }
-                var t = this.data in values ? values[this.data] : 0;
+                var t = Probie.get_value(this.data);
                 var u = this.get_value_write();
                 this.r[1] += t > u ? -1 : 1;
             },
