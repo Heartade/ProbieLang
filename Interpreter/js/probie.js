@@ -1,145 +1,16 @@
-var symbols = [
-    "○",
-    "①",
-    "②",
-    "③",
-    "④",
-    "⑤",
-    "⑥",
-    "⑦",
-    "⑧",
-    "⑨",
-    "⑩",
-    "⑪",
-    "⑫",
-    "⑬",
-    "⑭",
-    "⑮",
-    "◎",
-    "ⓐ",
-    "ⓑ",
-    "ⓒ",
-    "ⓓ",
-    "ⓔ",
-    "ⓕ",
-    "ⓖ",
-    "ⓗ",
-    "ⓘ",
-    "ⓙ",
-    "ⓚ",
-    "ⓛ",
-    "ⓜ",
-    "ⓝ",
-    "ⓞ",
-    " ",
-    "!",
-    '"',
-    "#",
-    "$",
-    "%",
-    "&",
-    "'",
-    "(",
-    ")",
-    "*",
-    "+",
-    ",",
-    "-",
-    ".",
-    "/",
-    "0",
-    "1",
-    "2",
-    "3",
-    "4",
-    "5",
-    "6",
-    "7",
-    "8",
-    "9",
-    ":",
-    ";",
-    "<",
-    "=",
-    ">",
-    "?",
-    "@",
-    "A",
-    "B",
-    "C",
-    "D",
-    "E",
-    "F",
-    "G",
-    "H",
-    "I",
-    "J",
-    "K",
-    "L",
-    "M",
-    "N",
-    "O",
-    "P",
-    "Q",
-    "R",
-    "S",
-    "T",
-    "U",
-    "V",
-    "W",
-    "X",
-    "Y",
-    "Z",
-    "[",
-    "\\",
-    "]",
-    "^",
-    "_",
-    "`",
-    "a",
-    "b",
-    "c",
-    "d",
-    "e",
-    "f",
-    "g",
-    "h",
-    "i",
-    "j",
-    "k",
-    "l",
-    "m",
-    "n",
-    "o",
-    "p",
-    "q",
-    "r",
-    "s",
-    "t",
-    "u",
-    "v",
-    "w",
-    "x",
-    "y",
-    "z",
-    "{",
-    "|",
-    "}",
-    "~",
-    "●",
-];
-var values = {};
-for (i = 0; i < 128; i++) {
-    values[symbols[i]] = i;
-}
-
 var Probie = class {
+    static init() {
+        for (i = 0; i < 128; i++) {
+            Probie.values[Probie.symbols[i]] = i;
+        }
+    }
+
     static check_coor(x, l) {
         return x < 0 || x >= l;
     }
 
     static get_value(x) {
-        return x in values ? values[x] : 0;
+        return x in Probie.values ? Probie.values[x] : 0;
     }
 
     static replace(s, index, c) {
@@ -313,7 +184,7 @@ var Probie = class {
                 c += Probie.get_value(this.data);
                 c = (c + 128) % 128;
                 var s = this.field[this.w_y()];
-                s = Probie.replace(s, this.w_x(), symbols[c]);
+                s = Probie.replace(s, this.w_x(), Probie.symbols[c]);
                 this.field[this.w_y()] = s;
             },
             "-": () => {
@@ -328,7 +199,7 @@ var Probie = class {
                 c -= Probie.get_value(this.data);
                 c = (c + 128) % 128;
                 var s = this.field[this.w_y()];
-                s = Probie.replace(s, this.w_x(), symbols[c]);
+                s = Probie.replace(s, this.w_x(), Probie.symbols[c]);
                 this.field[this.w_y()] = s;
             },
             "×": () => {
@@ -343,7 +214,7 @@ var Probie = class {
                 c *= Probie.get_value(this.data);
                 c = (c + 128) % 128;
                 var s = this.field[this.w_y()];
-                s = Probie.replace(s, this.w_x(), symbols[c]);
+                s = Probie.replace(s, this.w_x(), Probie.symbols[c]);
                 this.field[this.w_y()] = s;
             },
             "÷": () => {
@@ -358,7 +229,7 @@ var Probie = class {
                 c /= Probie.get_value(this.data);
                 c = (c + 128) % 128;
                 var s = this.field[this.w_y()];
-                s = Probie.replace(s, this.w_x(), symbols[c]);
+                s = Probie.replace(s, this.w_x(), Probie.symbols[c]);
                 this.field[this.w_y()] = s;
             },
             "%": () => {
@@ -373,7 +244,7 @@ var Probie = class {
                 c %= Probie.get_value(this.data);
                 c = (c + 128) % 128;
                 var s = this.field[this.w_y()];
-                s = Probie.replace(s, this.w_x(), symbols[c]);
+                s = Probie.replace(s, this.w_x(), Probie.symbols[c]);
                 this.field[this.w_y()] = s;
             },
             A: () => {
@@ -387,7 +258,7 @@ var Probie = class {
                 var c = this.get_value_write();
                 c += Probie.get_value(this.data);
                 c = (c + 128) % 128;
-                this.data = symbols[c];
+                this.data = Probie.symbols[c];
             },
             D: () => {
                 if (
@@ -400,7 +271,7 @@ var Probie = class {
                 var c = this.get_value_write();
                 c -= Probie.get_value(this.data);
                 c = (c + 128) % 128;
-                this.data = symbols[c];
+                this.data = Probie.symbols[c];
             },
             M: () => {
                 if (
@@ -413,7 +284,7 @@ var Probie = class {
                 var c = this.get_value_write();
                 c *= Probie.get_value(this.data);
                 c = (c + 128) % 128;
-                this.data = symbols[c];
+                this.data = Probie.symbols[c];
             },
             d: () => {
                 if (
@@ -426,7 +297,7 @@ var Probie = class {
                 var c = this.get_value_write();
                 c /= Probie.get_value(this.data);
                 c = (c + 128) % 128;
-                this.data = symbols[c];
+                this.data = Probie.symbols[c];
             },
             m: () => {
                 if (
@@ -439,7 +310,7 @@ var Probie = class {
                 var c = this.get_value_write();
                 c %= Probie.get_value(this.data);
                 c = (c + 128) % 128;
-                this.data = symbols[c];
+                this.data = Probie.symbols[c];
             },
         }; // arithmetic
         this.func6 = {
@@ -757,3 +628,137 @@ var Probie = class {
         return this.stdout;
     }
 };
+
+Probie.symbols = [
+    "○",
+    "①",
+    "②",
+    "③",
+    "④",
+    "⑤",
+    "⑥",
+    "⑦",
+    "⑧",
+    "⑨",
+    "⑩",
+    "⑪",
+    "⑫",
+    "⑬",
+    "⑭",
+    "⑮",
+    "◎",
+    "ⓐ",
+    "ⓑ",
+    "ⓒ",
+    "ⓓ",
+    "ⓔ",
+    "ⓕ",
+    "ⓖ",
+    "ⓗ",
+    "ⓘ",
+    "ⓙ",
+    "ⓚ",
+    "ⓛ",
+    "ⓜ",
+    "ⓝ",
+    "ⓞ",
+    " ",
+    "!",
+    '"',
+    "#",
+    "$",
+    "%",
+    "&",
+    "'",
+    "(",
+    ")",
+    "*",
+    "+",
+    ",",
+    "-",
+    ".",
+    "/",
+    "0",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    ":",
+    ";",
+    "<",
+    "=",
+    ">",
+    "?",
+    "@",
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "F",
+    "G",
+    "H",
+    "I",
+    "J",
+    "K",
+    "L",
+    "M",
+    "N",
+    "O",
+    "P",
+    "Q",
+    "R",
+    "S",
+    "T",
+    "U",
+    "V",
+    "W",
+    "X",
+    "Y",
+    "Z",
+    "[",
+    "\\",
+    "]",
+    "^",
+    "_",
+    "`",
+    "a",
+    "b",
+    "c",
+    "d",
+    "e",
+    "f",
+    "g",
+    "h",
+    "i",
+    "j",
+    "k",
+    "l",
+    "m",
+    "n",
+    "o",
+    "p",
+    "q",
+    "r",
+    "s",
+    "t",
+    "u",
+    "v",
+    "w",
+    "x",
+    "y",
+    "z",
+    "{",
+    "|",
+    "}",
+    "~",
+    "●",
+];
+Probie.values = {};
+
+Probie.init();
