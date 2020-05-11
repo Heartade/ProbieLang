@@ -1,6 +1,6 @@
 var Probie = class {
     static init() {
-        for (i = 0; i < 128; i++) {
+        for (var i = 0; i < 128; i++) {
             Probie.values[Probie.symbols[i]] = i;
         }
     }
@@ -10,7 +10,7 @@ var Probie = class {
     }
 
     static get_value(x) {
-        return x in Probie.symbols ? Probie.symbols[x] : 0;
+        return x in Probie.values ? Probie.values[x] : 0;
     }
 
     static replace(s, index, c) {
@@ -255,8 +255,8 @@ var Probie = class {
                     this.error_write("A");
                     return;
                 }
-                var c = this.get_value_write();
-                c += Probie.get_value(this.data);
+                var c = Probie.get_value(this.data);
+                c += this.get_value_write();
                 c = (c + 128) % 128;
                 this.data = Probie.symbols[c];
             },
@@ -268,8 +268,8 @@ var Probie = class {
                     this.error_write("D");
                     return;
                 }
-                var c = this.get_value_write();
-                c -= Probie.get_value(this.data);
+                var c = Probie.get_value(this.data);
+                c -= this.get_value_write();
                 c = (c + 128) % 128;
                 this.data = Probie.symbols[c];
             },
@@ -281,8 +281,8 @@ var Probie = class {
                     this.error_write("M");
                     return;
                 }
-                var c = this.get_value_write();
-                c *= Probie.get_value(this.data);
+                var c = Probie.get_value(this.data);
+                c *= this.get_value_write();
                 c = (c + 128) % 128;
                 this.data = Probie.symbols[c];
             },
@@ -294,8 +294,8 @@ var Probie = class {
                     this.error_write("d");
                     return;
                 }
-                var c = this.get_value_write();
-                c /= Probie.get_value(this.data);
+                var c = Probie.get_value(this.data);
+                c /= this.get_value_write();
                 c = (c + 128) % 128;
                 this.data = Probie.symbols[c];
             },
@@ -307,8 +307,8 @@ var Probie = class {
                     this.error_write("m");
                     return;
                 }
-                var c = this.get_value_write();
-                c %= Probie.get_value(this.data);
+                var c = Probie.get_value(this.data);
+                c %= this.get_value_write();
                 c = (c + 128) % 128;
                 this.data = Probie.symbols[c];
             },
@@ -400,7 +400,6 @@ var Probie = class {
                     this.stdin += c[i];
             }
         }
-        this.stdin += c;
     }
 
     // console output
@@ -666,136 +665,9 @@ var Probie = class {
     }
 };
 
-Probie.symbols = [
-    "○",
-    "①",
-    "②",
-    "③",
-    "④",
-    "⑤",
-    "⑥",
-    "⑦",
-    "⑧",
-    "⑨",
-    "⑩",
-    "⑪",
-    "⑫",
-    "⑬",
-    "⑭",
-    "⑮",
-    "◎",
-    "ⓐ",
-    "ⓑ",
-    "ⓒ",
-    "ⓓ",
-    "ⓔ",
-    "ⓕ",
-    "ⓖ",
-    "ⓗ",
-    "ⓘ",
-    "ⓙ",
-    "ⓚ",
-    "ⓛ",
-    "ⓜ",
-    "ⓝ",
-    "ⓞ",
-    " ",
-    "!",
-    '"',
-    "#",
-    "$",
-    "%",
-    "&",
-    "'",
-    "(",
-    ")",
-    "*",
-    "+",
-    ",",
-    "-",
-    ".",
-    "/",
-    "0",
-    "1",
-    "2",
-    "3",
-    "4",
-    "5",
-    "6",
-    "7",
-    "8",
-    "9",
-    ":",
-    ";",
-    "<",
-    "=",
-    ">",
-    "?",
-    "@",
-    "A",
-    "B",
-    "C",
-    "D",
-    "E",
-    "F",
-    "G",
-    "H",
-    "I",
-    "J",
-    "K",
-    "L",
-    "M",
-    "N",
-    "O",
-    "P",
-    "Q",
-    "R",
-    "S",
-    "T",
-    "U",
-    "V",
-    "W",
-    "X",
-    "Y",
-    "Z",
-    "[",
-    "\\",
-    "]",
-    "^",
-    "_",
-    "`",
-    "a",
-    "b",
-    "c",
-    "d",
-    "e",
-    "f",
-    "g",
-    "h",
-    "i",
-    "j",
-    "k",
-    "l",
-    "m",
-    "n",
-    "o",
-    "p",
-    "q",
-    "r",
-    "s",
-    "t",
-    "u",
-    "v",
-    "w",
-    "x",
-    "y",
-    "z",
-    "{",
-    "|",
-    "}",
-    "~",
-    "●",
-];
+Probie.symbols = "○①②③④⑤⑥⑦⑧⑨⑩⑪⑫⑬⑭⑮◎ⓐⓑⓒⓓⓔⓕⓖⓗⓘⓙⓚⓛⓜⓝⓞ !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~●".split(
+    ""
+);
 Probie.values = {};
 
 Probie.init();
