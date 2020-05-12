@@ -1,0 +1,23 @@
+p r o b i e h a t d
+f l m w n s c u g j
+k q v x y z
+
+stdin stdout stderr nvstate r w m dir dist data
+iscomment isbackslash isstop isinput field stdoutcb stderrcb stdcodecb func1 func2
+func3 func4 func5 func6 moveStep get_value_coor
+
+get_value_write w_y w_x read_c write_c error_comp error_read error_write error_mem error_c
+operate interpret
+
+init check_coor get_value replace symbols values length_alias substring_alias
+
+
+stdin stdout stderr nvstate r w m dir dist data
+iscomment isbackslash isstop field stdoutcb stderrcb stdcodecb func2 func3 func4
+func5 func5_2 func6 moveStep get_value_coor get_value_write
+
+w_y w_x check_coor write_check_coor mem_check_coor get_value replace mod128 cond1 cond2
+cond3 arith arith2 read_c write_c error_comp error_read error_write error_mem error_out_field
+error_c operate interpret
+
+init symbols values length_alias substring_alias
