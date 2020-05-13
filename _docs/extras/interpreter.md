@@ -13,7 +13,7 @@ Probie 코드를 실행해볼 수 있는 페이지입니다. 코드 칸과 출�
 <textarea style="resize:both;font-family:'Monospace';" id="code"></textarea>
 
 **출력**
-<textarea style="resize:both;font-family:'Monospace'" id="output" disabled="true"></textarea>
+<textarea style="resize:both;font-family:'Monospace';background-color:white;" id="output" disabled="true"></textarea>
 
 <button onclick="run()">실행</button>
 (실행 시간:
