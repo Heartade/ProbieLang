@@ -5,9 +5,9 @@ tags:
     - code
 ---
 
-# 인터프리터
+# 인터프리터 v1.1.0
 
-Probie 코드를 실행해볼 수 있는 페이지입니다.
+Probie 코드를 실행해볼 수 있는 페이지입니다. 코드 칸과 출력 칸은 크기를 마음대로 바꿀 수 있습니다.
 
 **코드**
 <textarea style="resize:both;font-family:'Monospace';" id="code"></textarea>
@@ -16,15 +16,20 @@ Probie 코드를 실행해볼 수 있는 페이지입니다.
 <textarea style="resize:both;font-family:'Monospace'" id="output" disabled="true"></textarea>
 
 <button onclick="run()">실행</button>
+(실행 시간:
+<span id="time"></span> ms)
 
 <script src="{{ site.baseurl }}/assets/js/probie_short.min.js"></script>
-<script>
+<script type="text/javascript">
 var p = undefined;
 
 function run() {
     var t = document.getElementById("code").value;
+    var start = performance.now();
     p = new Probie(t, stdoutcb, stderrcb, stdcodecb);
     p.run_auto();
+    var end = performance.now();
+    document.getElementById("time").innerHTML = (end - start).toFixed(3);
     console.log("Done");
 }
 
