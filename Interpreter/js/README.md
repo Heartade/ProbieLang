@@ -2,15 +2,17 @@
 
 Made by Orb_H
 
-<hr/>
+---
 
 ### 사용법
 
-1. 사용하고싶은 페이지에 `<script>` 태그를 이용하여 probie.js를 추가합니다.
-2. 코드, 출력, 입력이 될 TextArea를 만듭니다.
-3. 새로운 `<script>` 태그에 코드에 해당하는 TextArea의 텍스트를 매개변수로 넘기며 Probie 인스턴스를 생성하는 코드, 입력이 될 TextArea의 엔터 이벤트로 Probie의 read_c를 호출하는 코드, 출력이 될 TextArea에 내용을 넣어주는 콜백 함수를 추가합니다.
+1. 사용하고싶은 페이지에 `<script>` 태그를 이용하여 probie.js를 추가합니다. ex) `<script src="probie_short.min.js" charset="utf-8">`
+2. 코드, 출력이 될 TextArea를 만듭니다.
+3. 또 다른 `<script>`를 추가하여 표준 출력 콜백, 표준 에러 콜백, 표준 코드 콜백 함수를 지정합니다. 코드와 이 세 개의 콜백을 매개 변수로 새 Probie 인스턴스를 만든 후, run_auto()를 호출하면 Probie 코드를 실행할 수 있습니다.
+
+예시는 [test.html](./test.html)에서 찾아볼 수 있습니다.
 
 ### 특징
 
--   JavaScript로 만든 인터프리터입니다.
--   Java로 만든 인터프리터를 포팅하고 일부 변형했습니다.
+- JavaScript로 만든 인터프리터입니다.
+- Java로 만든 인터프리터를 포팅하고 일부 변형했습니다.
