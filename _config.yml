@@ -31,6 +31,8 @@ repo: "https://github.com/heartade/ProbieLang"
 github_user: "Heartade"
 github_repo: "ProbieLang"
 
+encoding: UTF-8
+
 # Optional
 twitter: 
 linkedin: 
