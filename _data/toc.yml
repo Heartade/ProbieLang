@@ -15,7 +15,7 @@
       children:
         - title: 예시 코드
           url: "docs/extras/codes"
-        - title: 인터프리터(WIP)
+        - title: 인터프리터
           url: "docs/extras/interpreter"
         - title: 태그 목록
           url: "tags"
