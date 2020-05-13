@@ -20,32 +20,7 @@ Probie 코드를 실행해볼 수 있는 페이지입니다. 코드 칸과 출�
 <span id="time"></span> ms)
 
 <script src="{{ site.baseurl }}/assets/js/probie_short.min.js"></script>
-<script type="text/javascript">
-var p = undefined;
-
-function run() {
-    var t = document.getElementById("code").value;
-    var start = performance.now();
-    p = new Probie(t, stdoutcb, stderrcb, stdcodecb);
-    p.run_auto();
-    var end = performance.now();
-    document.getElementById("time").innerHTML = (end - start).toFixed(3);
-    console.log("Done");
-}
-
-var stdoutcb = function (c, text) {
-    document.getElementById("output").value = text;
-}
-
-var stderrcb = function (c, text) {
-    console.error(c);
-    alert(c);
-}
-
-var stdcodecb = function (c) {
-    document.getElementById("code").value = c.join('\n');
-}
-</script>
+<script src="{{ site.baseurl }}/assets/js/interpreter.js"></script>
 <style>
 @font-face{
   font-family: Monospace;
