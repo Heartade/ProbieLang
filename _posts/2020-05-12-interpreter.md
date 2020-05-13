@@ -1,5 +1,5 @@
 ---
-title:  "Probie Language Interpreter on Github Page Is Open"
+title:  "깃허브 페이지에서 즐기는 인터프리터!"
 date:   2020-05-12 11:57:37 +0900
 categories: jekyll update
 badges:
