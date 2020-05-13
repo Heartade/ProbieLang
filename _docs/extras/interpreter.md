@@ -1,11 +1,11 @@
 ---
-title: 인터프리터
-description: Probie 인터프리터입니다.
+title: 에디터
+description: Probie 코드를 작성할 수 있는 에디터입니다.
 tags:
     - code
 ---
 
-# 인터프리터 v1.2.0
+# 온라인 에디터 v1.2.0
 
 Probie 코드를 실행해볼 수 있는 페이지입니다. 코드 칸과 출력 칸은 크기를 마음대로 바꿀 수 있습니다.
 
